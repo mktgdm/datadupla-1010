@@ -1,0 +1,2418 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protocolos · Portal DM</title>
+<meta name="description" content="Biblioteca de protocolos de aplicação dos equipamentos distribuídos pela Dermomed, por área de tratamento e tecnologia.">
+<meta name="theme-color" content="#472769">
+<style>:root{color-scheme:light}body{margin:0;padding:0;background:#fff;color:#1b1526}img{max-width:100%}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body,h1,h2,h3,h4,p,figure,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+
+:root{
+  --roxo:#472769; --roxo-800:#3a1f57; --roxo-600:#5b3585;
+  --roxo-200:#d9cfe6; --roxo-100:#efeaf5; --roxo-050:#f7f4fb;
+  --laranja:#EA5332; --laranja-700:#c9421f; --laranja-100:#fdeee9;
+  --tinta:#1b1526; --texto:#4c4559; --suave:#7a7389;
+  --bg:#ffffff; --bg-alt:#f7f6f9; --linha:#e9e6ef;
+  --rodape:#241733; --zap:#25D366;
+  --r-sm:10px; --r:14px; --r-lg:20px;
+  --sombra:0 1px 2px rgba(27,21,38,.04), 0 6px 20px rgba(27,21,38,.06);
+  --sombra-hover:0 2px 6px rgba(27,21,38,.06), 0 14px 34px rgba(27,21,38,.10);
+  --nav-h:64px; --max:1140px;
+}
+
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+  color:var(--texto);background:var(--bg);line-height:1.6;font-size:16px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-inline:20px}
+.sec{padding:64px 0;scroll-margin-top:calc(var(--nav-h) + 8px)}
+.sec--alt{background:var(--bg-alt)}
+
+.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--laranja);margin-bottom:12px}
+h1.t1{font-size:clamp(1.85rem,6.4vw,2.6rem);line-height:1.14;font-weight:800;
+  color:var(--tinta);letter-spacing:-.03em;text-wrap:balance;max-width:18ch}
+h2.t{font-size:clamp(1.5rem,4.2vw,2.05rem);line-height:1.22;font-weight:700;
+  color:var(--tinta);letter-spacing:-.02em;text-wrap:balance}
+h3.t3{font-size:1.06rem;font-weight:700;color:var(--tinta);line-height:1.35;letter-spacing:-.01em}
+.lead{margin-top:14px;font-size:1rem;color:var(--texto);max-width:64ch}
+.mini{font-size:.8rem;color:var(--suave);line-height:1.55}
+.centro{text-align:center}
+.centro .lead{margin-inline:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:50px;padding:13px 24px;border-radius:999px;border:1.5px solid transparent;
+  font-size:.88rem;font-weight:700;letter-spacing:.02em;text-align:center;cursor:pointer;
+  transition:transform .16s ease,box-shadow .16s ease,background-color .16s ease,
+             border-color .16s ease,color .16s ease;-webkit-tap-highlight-color:transparent}
+.btn:active{transform:translateY(1px)}
+.btn--laranja{background:var(--laranja);color:#fff;box-shadow:0 6px 18px rgba(234,83,50,.26)}
+.btn--laranja:hover{background:var(--laranja-700)}
+.btn--roxo{background:var(--roxo);color:#fff;box-shadow:0 6px 18px rgba(71,39,105,.22)}
+.btn--roxo:hover{background:var(--roxo-800)}
+.btn--linha{background:#fff;color:var(--roxo);border-color:var(--roxo-200)}
+.btn--linha:hover{border-color:var(--roxo);background:var(--roxo-050)}
+.btn--bloco{width:100%}
+.btn--sm{min-height:44px;padding:11px 18px;font-size:.82rem}
+.btn--caixa{text-transform:uppercase}
+.acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.acoes--centro{justify-content:center}
+
+.card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--linha);
+  border-radius:var(--r);box-shadow:var(--sombra);overflow:hidden;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sombra-hover);border-color:var(--roxo-200)}
+.card__ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+  background:var(--roxo-100);color:var(--roxo);flex:none}
+.card__ic svg{width:22px;height:22px}
+.card__ic--laranja{background:var(--laranja-100);color:var(--laranja)}
+
+/* ---------- cabeçalho ---------- */
+.topo{position:sticky;top:0;z-index:80;height:var(--nav-h);display:flex;align-items:center;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px}
+/* ← LOGO: troque este bloco pela imagem do Portal DM quando quiser */
+.marca{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--tinta);
+  letter-spacing:-.02em;font-size:1.02rem}
+.marca__sinal{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:var(--roxo);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.02em}
+.marca span{color:var(--suave);font-weight:600}
+.topo nav{display:flex;gap:4px;align-items:center}
+.topo nav a{font-size:.84rem;font-weight:600;color:var(--texto);padding:8px 12px;border-radius:999px}
+.topo nav a:hover{color:var(--roxo);background:var(--roxo-050)}
+@media (max-width:980px){.topo nav{display:none}}
+@media (max-width:520px){.topo .btn{display:none}.marca{font-size:.95rem}}
+
+/* ---------- hero ---------- */
+.hero{padding:56px 0 44px}
+.hero__grade{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:44px;align-items:center}
+@media (max-width:940px){.hero__grade{grid-template-columns:1fr;gap:32px}}
+.numeros{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.numero{background:#fff;border:1px solid var(--linha);border-radius:var(--r);padding:20px 18px;
+  box-shadow:var(--sombra)}
+.numero b{display:block;font-size:1.9rem;font-weight:800;color:var(--roxo);letter-spacing:-.03em;line-height:1}
+.numero span{display:block;margin-top:6px;font-size:.78rem;color:var(--suave);font-weight:500;line-height:1.4}
+.marcadores{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.marcador{display:inline-flex;align-items:center;gap:7px;background:var(--roxo-050);
+  border:1px solid var(--linha);border-radius:999px;padding:7px 14px;font-size:.8rem;color:var(--texto)}
+.marcador b{color:var(--roxo);font-weight:700}
+
+/* ---------- filtros ---------- */
+.filtros{position:sticky;top:var(--nav-h);z-index:70;background:rgba(255,255,255,.92);
+  backdrop-filter:blur(14px);border-block:1px solid var(--linha);padding:14px 0}
+.filtros__linha{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.abas{display:flex;gap:7px;flex-wrap:wrap}
+.aba{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 17px;border-radius:999px;
+  border:1.5px solid var(--linha);background:#fff;font-size:.85rem;font-weight:600;color:var(--texto);
+  cursor:pointer;transition:.16s}
+.aba:hover{border-color:var(--roxo-200);color:var(--roxo)}
+.aba i{font-style:normal;font-size:.72rem;font-weight:700;color:var(--suave)}
+.aba[aria-pressed="true"]{background:var(--roxo);border-color:var(--roxo);color:#fff}
+.aba[aria-pressed="true"] i{color:rgba(255,255,255,.72)}
+.aba--fam[aria-pressed="true"]{background:var(--laranja);border-color:var(--laranja)}
+.busca{flex:1;min-width:220px;position:relative}
+.busca input{width:100%;min-height:46px;padding:11px 14px 11px 42px;border:1.5px solid var(--linha);
+  border-radius:999px;background:#fff;font-size:.92rem;color:var(--tinta);transition:.15s}
+.busca input:focus{outline:none;border-color:var(--roxo);box-shadow:0 0 0 3px rgba(71,39,105,.13)}
+.busca input::placeholder{color:#a9a3b5}
+.busca svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--suave);
+  width:18px;height:18px}
+.divisor-fam{width:1px;height:26px;background:var(--linha);flex:none}
+
+/* No celular a barra deixa de ser fixa e as abas viram uma única linha rolável,
+   para não comer a altura útil da tela. */
+@media (max-width:720px){
+  .filtros{position:static;padding:12px 0}
+  .filtros__linha{flex-direction:column;align-items:stretch;gap:10px}
+  .busca{order:-1;min-width:0}
+  .rolagem{display:flex;align-items:center;gap:7px;flex-wrap:nowrap;overflow-x:auto;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0;
+    width:100%;min-width:0;max-width:100%}
+  .rolagem .abas{min-width:0;flex:none}
+  .rolagem::-webkit-scrollbar{display:none}
+  .rolagem .abas{flex-wrap:nowrap}
+  .aba{flex:none}
+}
+@media (min-width:721px){
+  .rolagem{display:contents}
+  .sec,.filtros{scroll-margin-top:calc(var(--nav-h) + 82px)}
+}
+
+/* ---------- resultados ---------- */
+.resumo-busca{font-size:.84rem;color:var(--suave);margin-bottom:26px}
+.resumo-busca b{color:var(--tinta);font-weight:700}
+.aviso{display:none;gap:14px;align-items:flex-start;background:var(--laranja-100);
+  border:1px solid #f6d9cf;border-radius:var(--r);padding:16px 18px;margin-bottom:24px}
+body.semimg .aviso{display:flex}
+.aviso svg{width:20px;height:20px;color:var(--laranja);flex:none;margin-top:2px}
+.aviso p{font-size:.87rem;color:var(--tinta);line-height:1.55}
+
+.grupo{margin-bottom:46px}
+.grupo__topo{display:flex;align-items:center;gap:14px;padding-bottom:14px;margin-bottom:20px;
+  border-bottom:1px solid var(--linha)}
+.grupo__topo h3{font-size:1rem;font-weight:700;color:var(--tinta);letter-spacing:-.01em}
+.grupo__topo .card__ic{width:38px;height:38px;border-radius:10px}
+.grupo__topo .card__ic svg{width:19px;height:19px}
+.grupo__topo .qtd{margin-left:auto;font-size:.78rem;color:var(--suave);font-weight:600}
+
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:900px){.grade{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.grade{grid-template-columns:1fr}}
+
+.arte{position:relative;display:block;width:100%;aspect-ratio:4/5;overflow:hidden;padding:0;
+  border:0;border-bottom:1px solid var(--linha);background:var(--roxo-050);cursor:zoom-in}
+.arte img{width:100%;height:100%;object-fit:cover;object-position:top center;
+  transition:transform .4s cubic-bezier(.2,.7,.3,1)}
+.card:hover .arte img{transform:scale(1.03)}
+.arte__lupa{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:10px;
+  display:grid;place-items:center;background:rgba(36,23,51,.78);color:#fff;opacity:0;
+  transition:opacity .2s ease;backdrop-filter:blur(4px)}
+.card:hover .arte__lupa{opacity:1}
+.arte__lupa svg{width:16px;height:16px}
+.card.semimg .arte{display:none}
+
+.card__corpo{padding:22px 22px 0;flex:1}
+.card__cab{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.card__cab .eyebrow{margin:0;color:var(--roxo-600)}
+.card__cab .selo{margin-left:auto;font-size:.68rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--suave);border:1px solid var(--linha);border-radius:999px;
+  padding:3px 9px}
+.card__tech{margin-top:7px;font-size:.9rem;color:var(--texto);font-weight:500}
+.card__resumo{margin-top:11px;font-size:.9rem;color:var(--suave);line-height:1.55}
+.params{display:flex;flex-wrap:wrap;gap:6px;margin-top:15px}
+.params li{background:var(--roxo-050);border:1px solid var(--linha);border-radius:var(--r-sm);
+  padding:5px 10px;font-size:.76rem;font-weight:600;color:var(--roxo);white-space:nowrap}
+.passos{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--linha)}
+.passos.aberto{display:block}
+.passos li{display:flex;gap:12px;padding:6px 0;font-size:.88rem;line-height:1.55;color:var(--texto)}
+.passos li b{flex:none;width:20px;font-size:.72rem;font-weight:700;color:var(--laranja);padding-top:3px}
+.card__pe{display:flex;border-top:1px solid var(--linha);margin-top:20px}
+.card__pe button{flex:1;min-height:48px;border:0;background:#fff;padding:12px 20px;font-size:.8rem;
+  font-weight:700;color:var(--roxo);cursor:pointer;display:flex;align-items:center;
+  justify-content:space-between;gap:8px;transition:.15s}
+.card__pe button:hover{background:var(--roxo-050)}
+.card__pe button+button{border-left:1px solid var(--linha);flex:none;padding-inline:16px}
+.card__pe svg{width:15px;height:15px;transition:transform .2s ease}
+.card__pe svg.cima{transform:rotate(180deg)}
+
+.vazio{text-align:center;padding:56px 20px}
+.vazio h3{font-size:1.2rem;font-weight:700;color:var(--tinta);margin-bottom:8px}
+
+/* ---------- destaque roxo (captura) ---------- */
+.destaque{background:linear-gradient(160deg,var(--roxo) 0%,var(--roxo-800) 100%);
+  position:relative;overflow:hidden;color:#fff;border-radius:var(--r-lg);padding:40px}
+.destaque::before{content:'';position:absolute;top:-140px;right:-120px;width:420px;height:420px;
+  border-radius:50%;background:radial-gradient(circle,rgba(234,83,50,.30) 0%,rgba(234,83,50,0) 68%)}
+.destaque > *{position:relative}
+.destaque .eyebrow{color:#ffb9a4}
+.destaque h2.t{color:#fff}
+.destaque p{color:rgba(255,255,255,.86)}
+.destaque__grade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:44px;align-items:start}
+@media (max-width:940px){.destaque__grade{grid-template-columns:1fr;gap:30px}.destaque{padding:30px 22px}}
+.beneficios{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.beneficios li{display:flex;gap:12px;align-items:flex-start;font-size:.92rem;
+  color:rgba(255,255,255,.86);line-height:1.5}
+.beneficios svg{width:19px;height:19px;color:#ffb9a4;flex:none;margin-top:3px}
+
+.painel{background:#fff;border-radius:var(--r);padding:28px 26px;box-shadow:0 18px 44px rgba(27,21,38,.22)}
+.painel h3{font-size:1.06rem;font-weight:700;color:var(--tinta);letter-spacing:-.01em}
+.painel > .mini{margin-top:6px;margin-bottom:20px}
+.campo{margin-bottom:16px}
+.campo label{display:block;font-size:.79rem;font-weight:700;color:var(--tinta);margin-bottom:6px;
+  letter-spacing:.01em}
+.campo label .req{color:var(--laranja)}
+.campo input,.campo select{width:100%;padding:13px 14px;border:1.5px solid var(--linha);
+  border-radius:var(--r-sm);background:#fff;font-size:.96rem;color:var(--tinta);min-height:50px;
+  transition:border-color .15s,box-shadow .15s}
+.campo input:focus,.campo select:focus{outline:none;border-color:var(--roxo);
+  box-shadow:0 0 0 3px rgba(71,39,105,.13)}
+.campo input::placeholder{color:#a9a3b5}
+.campo.erro input,.campo.erro select{border-color:var(--laranja);box-shadow:0 0 0 3px rgba(234,83,50,.12)}
+.campo .msg{display:none;margin-top:5px;font-size:.75rem;color:var(--laranja-700);font-weight:600}
+.campo.erro .msg{display:block}
+.sucesso{display:none;margin-top:16px;background:var(--roxo-050);border:1px solid var(--roxo-200);
+  border-radius:var(--r-sm);padding:14px 16px;font-size:.88rem;color:var(--tinta);line-height:1.5}
+.sucesso.ver{display:block}
+
+/* ---------- ampliação ---------- */
+.fundo{position:fixed;inset:0;background:rgba(27,21,38,.66);backdrop-filter:blur(3px);z-index:100;
+  display:none;align-items:center;justify-content:center;padding:24px}
+.fundo.ver{display:flex}
+.amp{background:#fff;border-radius:var(--r-lg);max-width:1020px;width:100%;max-height:92vh;
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);overflow:hidden;
+  box-shadow:0 30px 70px rgba(27,21,38,.4)}
+.amp__arte{background:var(--roxo-050);overflow:auto;max-height:92vh;border-right:1px solid var(--linha)}
+.amp__arte img{width:100%;height:auto}
+.amp__lado{padding:30px;overflow:auto;max-height:92vh;display:flex;flex-direction:column}
+.amp__cab{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px}
+.amp__cab .eyebrow{margin:0;color:var(--roxo-600)}
+.amp__nav{display:flex;gap:6px;flex:none}
+.amp__nav button{width:34px;height:34px;border-radius:10px;border:1.5px solid var(--linha);background:#fff;
+  color:var(--suave);cursor:pointer;display:grid;place-items:center;font-size:.8rem;font-weight:700;
+  transition:.15s}
+.amp__nav button:hover{border-color:var(--roxo);color:var(--roxo)}
+.amp__nav button[aria-pressed="true"]{border-color:var(--roxo);color:var(--roxo);background:var(--roxo-050)}
+.amp h3{font-size:1.4rem;font-weight:800;color:var(--tinta);letter-spacing:-.02em;line-height:1.2}
+.amp .card__tech{font-size:.95rem}
+.amp .passos{display:block;margin-top:20px}
+.amp__acoes{margin-top:auto;padding-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+.amp__acoes .btn{flex:1;min-width:160px}
+@media (max-width:880px){
+  .amp{grid-template-columns:1fr;max-height:94vh;overflow:auto}
+  .amp__arte{border-right:0;border-bottom:1px solid var(--linha);max-height:50vh}
+  .amp__lado{max-height:none;padding:24px 20px}
+}
+
+/* ---------- rodapé ---------- */
+.rodape{background:var(--rodape);color:rgba(255,255,255,.72);padding:44px 0 34px;font-size:.87rem}
+.rodape__grade{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.rodape h4{color:#fff;font-size:.95rem;font-weight:700;margin-bottom:10px}
+.rodape p{max-width:46ch;line-height:1.6}
+.rodape a{color:rgba(255,255,255,.72)}
+.rodape a:hover{color:#fff}
+.rodape__links{display:flex;flex-direction:column;gap:8px;font-size:.85rem}
+.rodape__fim{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);
+  font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.6}
+
+/* ---------- WhatsApp ---------- */
+.zap{position:fixed;right:16px;bottom:16px;z-index:90;display:inline-flex;align-items:center;gap:10px;
+  height:56px;padding:0 20px 0 16px;border-radius:999px;background:#25D366;color:#fff;font-size:.87rem;
+  font-weight:700;box-shadow:0 8px 26px rgba(37,211,102,.42),0 2px 6px rgba(0,0,0,.14);
+  transition:transform .18s ease}
+.zap:hover{transform:translateY(-2px)}
+.zap svg{width:26px;height:26px;flex:none}
+@media (max-width:600px){
+  .zap{right:14px;bottom:14px;height:54px;padding:0 18px 0 15px;font-size:.84rem}
+  body{padding-bottom:76px}
+  .zap span{display:none}
+  .zap{padding:0;width:54px;justify-content:center}
+}
+@media (max-width:520px){.acoes .btn{width:100%}}
+
+/* ================= área restrita — sobreposta à própria página =================
+   Tudo aqui é escopado em #adm / .adm- para não colidir com o estilo público. */
+.adm-porta{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  padding:24px;background:linear-gradient(160deg,var(--roxo) 0%,var(--roxo-800) 100%);overflow:auto}
+.adm-porta.ver{display:flex}
+.adm-porta::before{content:'';position:absolute;top:-160px;right:-140px;width:520px;height:520px;
+  border-radius:50%;background:radial-gradient(circle,rgba(234,83,50,.30) 0%,rgba(234,83,50,0) 68%)}
+.adm-porta form{position:relative;background:#fff;border-radius:var(--r-lg);padding:34px 30px;width:100%;
+  max-width:400px;box-shadow:0 24px 60px rgba(27,21,38,.32);margin:auto}
+.adm-porta h2{font-size:1.35rem;font-weight:800;color:var(--tinta);letter-spacing:-.02em}
+.adm-sinal{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--roxo);
+  color:#fff;font-size:.8rem;font-weight:800;margin-bottom:16px}
+
+#adm{position:fixed;inset:0;z-index:190;display:none;background:var(--bg-alt);overflow:auto}
+#adm.ver{display:block}
+.adm-topo{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--linha)}
+.adm-topo .wrap{display:flex;align-items:center;gap:14px;min-height:var(--nav-h);flex-wrap:wrap;padding-block:10px}
+.adm-marca{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--tinta);letter-spacing:-.02em}
+.adm-marca small{display:block;font-size:.72rem;font-weight:600;color:var(--suave);letter-spacing:0}
+.adm-marca .adm-sinal{width:32px;height:32px;border-radius:9px;margin:0;font-size:.72rem}
+.adm-acoes{margin-left:auto;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.adm-pendente{display:none;align-items:center;gap:7px;font-size:.78rem;font-weight:700;
+  color:var(--laranja-700);background:var(--laranja-100);border-radius:999px;padding:6px 13px}
+.adm-pendente.ver{display:inline-flex}
+.adm-pendente::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--laranja)}
+
+.adm-colunas{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;align-items:start;
+  padding:26px 0 70px}
+@media (max-width:900px){.adm-colunas{grid-template-columns:1fr}}
+.adm-lateral{position:sticky;top:calc(var(--nav-h) + 18px)}
+@media (max-width:900px){.adm-lateral{position:static}}
+.adm-painel{background:#fff;border:1px solid var(--linha);border-radius:var(--r);box-shadow:var(--sombra);
+  padding:24px 22px;margin-bottom:18px}
+.adm-painel__cab{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.adm-painel__cab h3{flex:1;min-width:170px;font-size:1.4rem;font-weight:700;color:var(--tinta);
+  letter-spacing:-.02em}
+
+.adm-secoes li{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--r-sm);
+  border:1.5px solid transparent;transition:.15s;cursor:pointer}
+.adm-secoes li:hover{background:var(--roxo-050)}
+.adm-secoes li[aria-current="true"]{background:var(--roxo-050);border-color:var(--roxo-200)}
+.adm-secoes .nome{flex:1;font-size:.92rem;font-weight:600;color:var(--tinta);min-width:0;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.adm-secoes .n{font-size:.74rem;font-weight:700;color:var(--suave);background:var(--bg-alt);
+  border-radius:999px;padding:2px 9px}
+.adm-secoes .ferramentas{display:flex;gap:3px;flex:none}
+.adm-mini{width:28px;height:28px;border-radius:8px;border:1px solid var(--linha);background:#fff;
+  color:var(--suave);display:grid;place-items:center;cursor:pointer;flex:none;transition:.15s}
+.adm-mini:hover{border-color:var(--roxo);color:var(--roxo)}
+.adm-mini svg{width:14px;height:14px}
+.adm-secoes .adm-mini{width:24px;height:24px;border-radius:7px}
+.adm-secoes .adm-mini svg{width:12px;height:12px}
+
+.adm-lista{display:flex;flex-direction:column;gap:10px}
+.adm-item{border:1px solid var(--linha);border-radius:var(--r);padding:14px 16px;background:#fff;
+  display:flex;gap:14px;align-items:flex-start;transition:.15s}
+.adm-item:hover{border-color:var(--roxo-200)}
+.adm-item__corpo{flex:1;min-width:0}
+.adm-item__titulo{font-size:.98rem;font-weight:700;color:var(--tinta);line-height:1.35}
+.adm-item__tech{font-size:.84rem;color:var(--suave);margin-top:3px}
+.adm-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.adm-tag{font-size:.72rem;font-weight:600;color:var(--roxo);background:var(--roxo-050);
+  border:1px solid var(--linha);border-radius:999px;padding:3px 9px}
+.adm-tag--aviso{color:var(--laranja-700);background:var(--laranja-100);border-color:#f0d3ca}
+.adm-item__acoes{display:flex;gap:6px;flex:none;flex-wrap:wrap;justify-content:flex-end;max-width:220px}
+.adm-item__acoes select{min-height:36px;padding:6px 10px;border:1.5px solid var(--linha);
+  border-radius:var(--r-sm);font-size:.79rem;background:#fff;color:var(--tinta);max-width:150px}
+.adm-vazio{text-align:center;padding:44px 20px;color:var(--suave)}
+.adm-vazio b{display:block;font-size:1.05rem;color:var(--tinta);margin-bottom:6px}
+
+.adm-fundo{position:fixed;inset:0;background:rgba(27,21,38,.66);backdrop-filter:blur(3px);z-index:210;
+  display:none;align-items:flex-start;justify-content:center;padding:24px;overflow:auto}
+.adm-fundo.ver{display:flex}
+.adm-modal{background:#fff;border-radius:var(--r-lg);max-width:720px;width:100%;padding:30px;
+  box-shadow:0 30px 70px rgba(27,21,38,.4);margin-block:auto}
+.adm-modal__cab{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px}
+.adm-modal h3{font-size:1.25rem;font-weight:800;color:var(--tinta);letter-spacing:-.02em}
+.adm-modal__pe{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.adm-modal__pe .btn{flex:1;min-width:150px}
+.adm-dupla{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.adm-dupla{grid-template-columns:1fr}}
+#adm textarea{width:100%;padding:12px 14px;border:1.5px solid var(--linha);border-radius:var(--r-sm);
+  background:#fff;font-size:.94rem;color:var(--tinta);min-height:110px;resize:vertical;line-height:1.55;
+  font-family:inherit;transition:border-color .15s,box-shadow .15s}
+#adm textarea:focus{outline:none;border-color:var(--roxo);box-shadow:0 0 0 3px rgba(71,39,105,.13)}
+#adm .campo.erro textarea{border-color:var(--laranja);box-shadow:0 0 0 3px rgba(234,83,50,.12)}
+
+.adm-recado{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:220;
+  background:var(--rodape);color:#fff;border-radius:999px;padding:12px 22px;font-size:.86rem;font-weight:600;
+  box-shadow:0 12px 34px rgba(27,21,38,.34);max-width:calc(100vw - 40px);text-align:center}
+.adm-recado:empty{display:none}
+
+.reveal{opacity:0;transform:translateY(16px)}
+.reveal.vis{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+:focus-visible{outline:3px solid var(--laranja);outline-offset:2px;border-radius:6px}
+</style>
+
+<header class="topo">
+  <div class="wrap">
+    <!-- ← LOGO: substitua por <img src="logo-dm.svg" alt="Portal DM"> quando tiver o arquivo -->
+    <a class="marca" data-cfg="portal" data-evt="topo_logo" href="#">
+      <span class="marca__sinal">DM</span>Portal DM <span>· Protocolos</span>
+    </a>
+    <nav>
+      <a href="#biblioteca">Biblioteca</a>
+      <a href="#pacote">Receber protocolos</a>
+      <a href="#especialista">Falar com especialista</a>
+    </nav>
+    <a class="btn btn--linha btn--sm" data-cfg="portal" data-evt="topo_voltar_portal" href="#">Voltar ao Portal DM</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero__grade">
+    <div class="reveal">
+      <span class="eyebrow">Biblioteca técnica Dermomed</span>
+      <h1 class="t1">Todo protocolo começa por um parâmetro.</h1>
+      <p class="lead">Temperatura, joule, nanômetro, profundidade de agulha. Reunimos os protocolos de aplicação dos equipamentos que a Dermomed distribui, separados por área de tratamento e por tecnologia — com os parâmetros na frente, onde eles servem.</p>
+      <div class="acoes">
+        <a class="btn btn--laranja btn--caixa" href="#pacote" data-evt="hero_receber_pacote">Receber os protocolos</a>
+        <a class="btn btn--linha" href="#biblioteca" data-evt="hero_ver_biblioteca">Explorar a biblioteca</a>
+      </div>
+      <ul class="marcadores" id="marcadores"></ul>
+    </div>
+    <div class="numeros reveal" id="numeros"></div>
+  </div>
+</section>
+
+<div class="filtros" id="biblioteca">
+  <div class="wrap filtros__linha">
+    <div class="rolagem">
+      <div class="abas" id="areas"></div>
+      <span class="divisor-fam"></span>
+      <div class="abas" id="familias"></div>
+    </div>
+    <div class="busca">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Buscar por indicação, equipamento ou parâmetro" aria-label="Buscar protocolos">
+    </div>
+  </div>
+</div>
+
+<main class="sec" style="padding-top:38px">
+  <div class="wrap">
+    <div class="aviso">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+      <p>Esta pré-visualização não carrega imagens externas, então os cards aparecem em texto. Na versão publicada no site, cada protocolo mostra a arte original.</p>
+    </div>
+    <p class="resumo-busca" id="resumo" aria-live="polite"></p>
+    <div id="resultados"></div>
+  </div>
+</main>
+
+<section class="sec sec--alt" id="pacote">
+  <div class="wrap">
+    <div class="destaque reveal">
+      <div class="destaque__grade">
+        <div>
+          <span class="eyebrow">Material completo</span>
+          <h2 class="t">Receba os protocolos organizados</h2>
+          <p class="lead" style="color:rgba(255,255,255,.86)">Enviamos as artes originais de todos os protocolos, no formato que a equipe técnica produziu — pronto para imprimir, salvar na cabine ou repassar para a sua equipe.</p>
+          <ul class="beneficios">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg><span id="benef-arquivos">Protocolos, tabelas de parâmetros e materiais de campanha.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg><span>Separados por área e por tecnologia, do jeito que aparece nesta página.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg><span>Novos protocolos entram no pacote conforme a equipe publica.</span></li>
+          </ul>
+        </div>
+        <div class="painel" id="formulario">
+          <h3>Receber o pacote completo</h3>
+          <p class="mini">Preencha e receba o link dos protocolos no seu e-mail.</p>
+<style>
+#_form_3_{font-size:14px;line-height:1.6;font-family:arial, helvetica, sans-serif;margin:0;box-shadow:none}._form_hide{display:none;visibility:hidden}._form_show{display:block;visibility:visible}#_form_3_._form-top{top:0}#_form_3_._form-bottom{bottom:0}#_form_3_._form-left{left:0}#_form_3_._form-right{right:0}#_form_3_ input[type="text"],#_form_3_ input[type="tel"],#_form_3_ input[type="date"],#_form_3_ textarea{padding:8px;height:auto;border:#979797 1px solid;border-radius:4px;color:#000 !important;font-size:14px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}#_form_3_ textarea{resize:none}#_form_3_ input::placeholder{color:#000000}#_form_3_ ._submit{cursor:pointer;font-family:arial, sans-serif;font-size:14px;text-align:center;background:#004CFF !important;border:0 !important;-moz-border-radius:30px !important;-webkit-border-radius:30px !important;border-radius:30px !important;width:100%;color:#FFFFFF !important;padding:12px !important}#_form_3_ ._submit:disabled{cursor:not-allowed;opacity:0.4}#_form_3_ ._submit.processing{position:relative}#_form_3_ ._submit.processing::before{content:"";width:1em;height:1em;position:absolute;z-index:1;top:50%;left:50%;border:double 3px transparent;border-radius:50%;background-image:linear-gradient(#004CFF, #004CFF), conic-gradient(#004CFF, #FFFFFF);background-origin:border-box;background-clip:content-box, border-box;animation:1200ms ease 0s infinite normal none running _spin}#_form_3_ ._submit.processing::after{content:"";position:absolute;top:0;bottom:0;left:0;right:0}@keyframes _spin{0%{transform:translate(-50%, -50%) rotate(90deg)}100%{transform:translate(-50%, -50%) rotate(450deg)}}#_form_3_ ._close-icon{cursor:pointer;background-image:url("https://d226aj4ao1t61q.cloudfront.net/esfkyjh1u_forms-close-dark.png");background-repeat:no-repeat;background-size:14.2px 14.2px;position:absolute;display:block;top:11px;right:9px;overflow:hidden;width:16.2px;height:16.2px}#_form_3_ ._close-icon:before{position:relative}#_form_3_ ._form-body{font-family:Roboto;font-size:14px;font-weight:400;color:black;margin-bottom:30px}#_form_3_ ._form-image-left{width:150px;float:left}#_form_3_ ._form-content-right{margin-left:164px}#_form_3_ ._form-branding{color:#fff;font-size:10px;clear:both;text-align:left;margin-top:30px;font-weight:100}#_form_3_ ._form-branding ._logo{display:block;width:130px;height:14px;margin-top:6px;background-image:url("https://d226aj4ao1t61q.cloudfront.net/hh9ujqgv5_aclogo_li.png");background-size:130px auto;background-repeat:no-repeat}#_form_3_ .form-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);border:0}#_form_3_ ._form-label,#_form_3_ ._form_element ._form-label{font-weight:bold;margin-bottom:5px;display:block}#_form_3_._dark ._form-branding{color:#333}#_form_3_._dark ._form-branding ._logo{background-image:url("https://d226aj4ao1t61q.cloudfront.net/jftq2c8s_aclogo_dk.png")}#_form_3_ ._form_element{position:relative;margin-bottom:10px;max-width:100%}#_form_3_ ._form_element *{font-size:14px}#_form_3_ ._form_element._clear{clear:both;width:100%;float:none}#_form_3_ ._form_element._clear:after{clear:left}#_form_3_ ._form_element :is(textarea, select, input[type="text"], input[type="date"], input[type="phone"], input[type="email"]),#_form_3_ ._form-element :is(textarea, select, input[type="text"], input[type="date"], input[type="phone"], input[type="email"]){background:white;color:#000000 !important;border-top:none;border-left:none;border-right:none;border-bottom:none;border-radius:4px;padding:10px}#_form_3_ ._form_element input[type="text"],#_form_3_ ._form_element input[type="date"],#_form_3_ ._form_element select,#_form_3_ ._form_element textarea:not(.g-recaptcha-response){display:block;width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-family:inherit}#_form_3_ ._field-wrapper{position:relative}#_form_3_ ._inline-style{float:left}#_form_3_ ._inline-style input[type="text"]{width:150px}#_form_3_ ._inline-style:not(._clear){margin-right:20px}#_form_3_ ._form_element img._form-image{max-width:100%}#_form_3_ ._form_element ._form-fieldset{border:0;padding:0.01em 0 0 0;margin:0;min-width:0}#_form_3_ ._clear-element{clear:left}#_form_3_ ._full_width{width:100%}#_form_3_ ._form_full_field{display:block;width:100%;margin-bottom:10px}#_form_3_ input[type="text"]._has_error,#_form_3_ textarea._has_error{border:#F37C7B 1px solid}#_form_3_ input[type="checkbox"]._has_error{outline:#F37C7B 1px solid}#_form_3_ ._show_be_error{float:left}#_form_3_ ._error{display:block;position:absolute;font-size:14px;z-index:10000001}#_form_3_ ._error._above{padding-bottom:4px;bottom:39px;right:0}#_form_3_ ._error._below{padding-top:8px;top:100%;right:0}#_form_3_ ._error._above ._error-arrow{bottom:-4px;right:15px;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #FFDDDD}#_form_3_ ._error._below ._error-arrow{top:0;right:15px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid #FFDDDD}#_form_3_ ._error-inner{padding:12px 12px 12px 36px;background-color:#FFDDDD;background-image:url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM9 3V9H7V3H9ZM9 13V11H7V13H9Z' fill='%23CA0000'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center;font-size:14px;font-family:arial, sans-serif;font-weight:600;line-height:16px;color:#000;text-align:center;text-decoration:none;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;box-shadow:0 1px 4px rgba(31, 33, 41, 0.298295)}@media only screen and (max-width:319px){#_form_3_ ._error-inner{padding:7px 7px 7px 25px;font-size:12px;line-height:12px;background-position:4px center;max-width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}#_form_3_ ._error-inner._form_error{margin-bottom:5px;text-align:left}#_form_3_ ._button-wrapper ._error-inner._form_error{position:static}#_form_3_ ._error-inner._no_arrow{margin-bottom:10px}#_form_3_ ._error-arrow{position:absolute;width:0;height:0}#_form_3_ ._error-html{margin-bottom:10px}.pika-single{z-index:10000001 !important}#_form_3_ input[type="text"].datetime_date{width:69%;display:inline}#_form_3_ select.datetime_time{width:29%;display:inline;height:32px}#_form_3_ input[type="date"].datetime_date{width:69%;display:inline-flex}#_form_3_ input[type="time"].datetime_time{width:29%;display:inline-flex}#_form_3_ ._form-title,#_form_3_ ._html-code :is(h1, h2, h3, h4, h5, h6){font-family:Roboto;font-size:24px;font-weight:700;color:black}@media (min-width:320px) and (max-width:667px){::-webkit-scrollbar{display:none}#_form_3_{margin:0;width:100%;min-width:100%;max-width:100%;box-sizing:border-box}#_form_3_ *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;font-size:1em}#_form_3_ ._form-content{margin:0;width:100%}#_form_3_ ._form-inner{display:block;min-width:100%}#_form_3_ ._form-title,#_form_3_ ._inline-style{margin-top:0;margin-right:0;margin-left:0}#_form_3_ ._form-title{font-size:1.2em}#_form_3_ ._form_element{margin:0 0 20px;padding:0;width:100%}#_form_3_ ._form-element,#_form_3_ ._inline-style,#_form_3_ input[type="text"],#_form_3_ label,#_form_3_ p,#_form_3_ textarea:not(.g-recaptcha-response){float:none;display:block;width:100%}#_form_3_ ._row._checkbox-radio label{display:inline}#_form_3_ ._row,#_form_3_ p,#_form_3_ label{margin-bottom:0.7em;width:100%}#_form_3_ ._row input[type="checkbox"],#_form_3_ ._row input[type="radio"]{margin:0 !important;vertical-align:middle !important}#_form_3_ ._row input[type="checkbox"]+span label{display:inline}#_form_3_ ._row span label{margin:0 !important;width:initial !important;vertical-align:middle !important}#_form_3_ ._form-image{max-width:100%;height:auto !important}#_form_3_ input[type="text"]{padding-left:10px;padding-right:10px;font-size:16px;line-height:1.3em}#_form_3_ input[type="radio"],#_form_3_ input[type="checkbox"]{display:inline-block;width:1.3em;height:1.3em;font-size:1em;margin:0 0.3em 0 0;vertical-align:baseline}#_form_3_ button[type="submit"]{padding:20px;font-size:1.5em}#_form_3_ ._inline-style{margin:20px 0 0 !important}#_form_3_ ._inline-style input[type="text"]{width:100%}}#_form_3_ .sms_consent_checkbox{position:relative;width:100%;display:flex;align-items:flex-start;padding:20px 0}#_form_3_ .sms_consent_checkbox input[type="checkbox"]{float:left;margin:5px 10px 10px 0}#_form_3_ .sms_consent_checkbox .sms_consent_message{display:inline;float:left;text-align:left;margin-bottom:10px;font-size:14px;color:#7D8799}#_form_3_ .sms_consent_checkbox .sms_consent_message.sms_consent_mini{width:90%}#_form_3_ .sms_consent_checkbox ._error._above{right:auto;bottom:0}#_form_3_ .sms_consent_checkbox ._error._above ._error-arrow{right:auto;left:5px}@media (min-width:320px) and (max-width:667px){#_form_3_ .sms_consent_checkbox ._error._above{top:-30px;left:0;bottom:auto}}#_form_3_ .field-required{color:#FF0000}#_form_3_{position:relative;text-align:left;margin:25px auto 0;padding-top:20px;padding-right:20px;padding-bottom:20px;padding-left:20px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#FFFFFF !important;border:0;max-width:500px;-moz-border-radius:4px !important;-webkit-border-radius:4px !important;border-radius:4px !important;color:#000000}#_form_3_ ._show_be_error{min-width:100%}#_form_3_._inline-form,#_form_3_._inline-form ._form-content{font-family:Roboto;font-size:14px;font-weight:400}#_form_3_._inline-form ._row span:not(.field-required),#_form_3_._inline-form ._row label{font-family:Roboto;font-size:14px;font-weight:400;line-height:1.6em;color:black}#_form_3__inlineform input[type="text"],#_form_3__inlineform input[type="date"],#_form_3__inlineform input[type="tel"],#_form_3__inlineform select,#_form_3__inlineform textarea:not(.g-recaptcha-response){font-family:Roboto;font-size:14px;font-weight:400;font-color:#000000;line-height:1.6em}#_form_3_._inline-form ._html-code,#_form_3_._inline-form .sms_consent_message,#_form_3_._inline-form ._form-thank-you{font-family:Roboto;font-size:14px;font-weight:400;color:black}#_form_3_._inline-form ._form-label,#_form_3_._inline-form ._form-emailidentifier,#_form_3_._inline-form ._form-checkbox-option-label{font-family:Roboto;font-size:14px;font-weight:700;line-height:1.6em;color:black}#_form_3_._inline-form ._submit{margin-top:12px;font-family:Roboto;font-size:16px;font-weight:600}#_form_3_._inline-form ._html-code h1,#_form_3_._inline-form ._html-code h2,#_form_3_._inline-form ._html-code h3,#_form_3_._inline-form ._html-code h4,#_form_3_._inline-form ._html-code h5,#_form_3_._inline-form ._html-code h6,#_form_3_._inline-form ._form-title{margin-bottom:0;display:block}#_form_3_._inline-form ._form-branding{font-family:"IBM Plex Sans", Helvetica, sans-serif;font-size:13px;font-weight:100;font-style:normal;text-decoration:none}#_form_3_:before,#_form_3_:after{content:" ";display:table}#_form_3_:after{clear:both}#_form_3_._inline-style{width:auto;display:inline-block}#_form_3_._inline-style input[type="text"],#_form_3_._inline-style input[type="date"]{padding:10px 12px}#_form_3_._inline-style button._inline-style{position:relative;top:27px}#_form_3_._inline-style p{margin:0}#_form_3_._inline-style ._button-wrapper{position:relative;margin:16px 12.5px 0 20px}#_form_3_._inline-style ._button-wrapper:not(._clear){margin-left:0}#_form_3_ ._form-thank-you{position:relative;left:0;right:0;text-align:center;font-size:18px}#_form_3_ ._form-pc-confirmation ._submit{margin-top:16px}@media (min-width:320px) and (max-width:667px){#_form_3_._inline-form._inline-style ._inline-style._button-wrapper{margin-top:20px !important;margin-left:0 !important}}#_form_3_ .iti{width:100%}#_form_3_ .iti.iti--allow-dropdown.iti--separate-dial-code{width:100%}#_form_3_ .iti input{width:100%;border:#979797 1px solid;border-radius:4px}#_form_3_ .iti--separate-dial-code .iti__selected-flag{background-color:#FFFFFF;border-radius:4px}#_form_3_ .iti--separate-dial-code .iti__selected-flag:hover{background-color:rgba(0, 0, 0, 0.05)}#_form_3_ .iti__country-list{border-radius:4px;margin-top:4px;min-width:460px}#_form_3_ .iti__country-list--dropup{margin-bottom:4px}#_form_3_ .phone-error-hidden{display:none}#_form_3_ .phone-error{color:#E40E49}#_form_3_ .phone-input-error{border:1px solid #E40E49 !important}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field fieldset{margin:0;margin-bottom:1.1428571429em;border:none;padding:0}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field fieldset:last-child{margin-bottom:0}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field legend{margin-bottom:1.1428571429em}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field label{display:flex;align-items:flex-start;justify-content:flex-start;margin-bottom:0.8571428571em}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field label:last-child{margin-bottom:0}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field input{margin:0;margin-right:8px}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field ._form-checkbox-option-label{display:block;font-weight:400;margin-top:-4px}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field ._form-checkbox-option-label-with-description{display:block;font-weight:700;margin-top:-4px}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field ._form-checkbox-option-description{margin:0;font-size:0.8571428571em}#_form_3_._inline-form ._form-content ._form-list-subscriptions-field ._form-subscriptions-unsubscribe-all-description{line-height:normal;margin-top:-2px}</style>
+<form method="POST" action="https://dermomed.activehosted.com/proc.php" id="_form_3_" class="_form _form_3 _inline-form  _dark" novalidate data-styles-version="5">
+  <input type="hidden" name="u" value="3" />
+  <input type="hidden" name="f" value="3" />
+  <input type="hidden" name="s" />
+  <input type="hidden" name="c" value="0" />
+  <input type="hidden" name="m" value="0" />
+  <input type="hidden" name="act" value="sub" />
+  <input type="hidden" name="v" value="2" />
+  <input type="hidden" name="or" value="27605397-be34-48be-9ecb-b54b2c645f1c" />
+  <div class="_form-content">
+    <div class="_form_element _field_name _full_width " >
+      <label for="fullname" class="_form-label">
+        Nome<span class="field-required">
+        *
+      </span>
+    </label>
+    <div class="_field-wrapper">
+      <input type="text" id="fullname" name="fullname" placeholder="Como devemos te chamar" autocomplete="name" required/>
+    </div>
+  </div>
+  <div class="_form_element _field_email _full_width " >
+    <label for="email" class="_form-label">
+      E-mail<span class="field-required">
+      *
+    </span>
+  </label>
+  <div class="_field-wrapper">
+    <input type="text" id="email" name="email" placeholder="voce@suaclinica.com.br" autocomplete="email" inputmode="email" required/>
+  </div>
+</div>
+<div class="_form_element _field_phone _full_width " >
+  <label for="phone" class="_form-label">
+    WhatsApp<span class="field-required">
+    *
+  </span>
+</label>
+<div class="_field-wrapper">
+  <input type="text" id="phone" name="phone" placeholder="(11) 90000-0000" autocomplete="tel" required/>
+</div>
+</div>
+<div class="_form_element _field7 _full_width " >
+<label for="field[7]" class="_form-label">
+  Seu perfil
+</label>
+<div class="_field-wrapper">
+  <select id="field[7]" name="field[7]">
+    <option>Profissional de estética</option>
+    <option>Proprietário(a) de clínica</option>
+    <option>Fisioterapeuta</option>
+    <option>Biomédico(a) ou esteticista em formação</option>
+    <option>Já sou cliente Dermomed</option>
+  </select>
+</div>
+</div>
+<div class="_button-wrapper _full_width">
+<button id="_form_3_submit" class="_submit" type="submit" data-evt="pacote_enviar">
+  Quero os protocolos
+</button>
+</div>
+<div class="_clear-element">
+</div>
+</div>
+<div class="_form-thank-you" style="display:none;">
+</div>
+<div class="_form-branding">
+<div class="_marketing-by">
+Marketing por
+</div>
+<a href="https://www.activecampaign.com/?utm_medium=referral&utm_campaign=acforms" class="_logo">
+<span class="form-sr-only">
+  ActiveCampaign
+</span>
+</a>
+</div>
+</form><script>
+window.cfields = {"7":"perfil"};
+window._show_thank_you = function(id, message, trackcmp_url, email) {
+    var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+    form.querySelector('._form-content').style.display = 'none';
+    thank_you.innerHTML = message;
+    thank_you.style.display = 'block';
+    const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+    var visitorObject = window[vgoAlias];
+    if (email && typeof visitorObject !== 'undefined') {
+        visitorObject('setEmail', email);
+        visitorObject('update');
+    } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+        // Site tracking URL to use after inline form submission.
+        _load_script(trackcmp_url);
+    }
+    if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+    thank_you.setAttribute('tabindex', '-1');
+    thank_you.focus();
+};
+window._show_unsubscribe = function(id, message, trackcmp_url, email) {
+    var form = document.getElementById('_form_' + id + '_'), unsub = form.querySelector('._form-thank-you');
+    var branding = form.querySelector('._form-branding');
+    if (branding) {
+        branding.style.display = 'none';
+    }
+    form.querySelector('._form-content').style.display = 'none';
+    unsub.style.display = 'block';
+    form.insertAdjacentHTML('afterend', message)
+    const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+    var visitorObject = window[vgoAlias];
+    if (email && typeof visitorObject !== 'undefined') {
+        visitorObject('setEmail', email);
+        visitorObject('update');
+    } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+        // Site tracking URL to use after inline form submission.
+        _load_script(trackcmp_url);
+    }
+    if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._show_error = function(id, message, html) {
+    var form = document.getElementById('_form_' + id + '_'),
+        err = document.createElement('div'),
+        button = form.querySelector('button[type="submit"]'),
+        old_error = form.querySelector('._form_error');
+    if (old_error) old_error.parentNode.removeChild(old_error);
+    err.innerHTML = message;
+    err.className = '_error-inner _form_error _no_arrow';
+    var wrapper = document.createElement('div');
+    wrapper.className = '_form-inner _show_be_error';
+    wrapper.appendChild(err);
+    button.parentNode.insertBefore(wrapper, button);
+    var submitButton = form.querySelector('[id^="_form"][id$="_submit"]');
+    submitButton.disabled = false;
+    submitButton.classList.remove('processing');
+    if (html) {
+        var div = document.createElement('div');
+        div.className = '_error-html';
+        div.innerHTML = html;
+        err.appendChild(div);
+    }
+};
+window._show_pc_confirmation = function(id, header, detail, show, email) {
+    var form = document.getElementById('_form_' + id + '_'), pc_confirmation = form.querySelector('._form-pc-confirmation');
+    if (pc_confirmation.style.display === 'none') {
+        form.querySelector('._form-content').style.display = 'none';
+        pc_confirmation.innerHTML = "<div class='_form-title'>" + header + "</div>" + "<p>" + detail + "</p>" +
+        "<button class='_submit' id='hideButton'>Gerenciar preferências</button>";
+        pc_confirmation.style.display = 'block';
+        var mp = document.querySelector('input[name="mp"]');
+        mp.value = '0';
+    } else {
+        form.querySelector('._form-content').style.display = 'inline';
+        pc_confirmation.style.display = 'none';
+    }
+
+    var hideButton = document.getElementById('hideButton');
+    // Add event listener to the button
+    hideButton.addEventListener('click', function() {
+        var submitButton = document.querySelector('#_form_3_submit');
+        submitButton.disabled = false;
+        submitButton.classList.remove('processing');
+        var mp = document.querySelector('input[name="mp"]');
+        mp.value = '1';
+        const cacheBuster = new URL(window.location.href);
+        cacheBuster.searchParams.set('v', new Date().getTime());
+        window.location.href = cacheBuster.toString();
+    });
+
+    const vgoAlias = typeof visitorGlobalObjectAlias === 'undefined' ? 'vgo' : visitorGlobalObjectAlias;
+    var visitorObject = window[vgoAlias];
+    if (email && typeof visitorObject !== 'undefined') {
+        visitorObject('setEmail', email);
+        visitorObject('update');
+    } else if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+        // Site tracking URL to use after inline form submission.
+        _load_script(trackcmp_url);
+    }
+    if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+};
+window._load_script = function(url, callback, isSubmit) {
+    var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+    var submitButton = document.querySelector('#_form_3_submit');
+    script.charset = 'utf-8';
+    script.src = url;
+    if (callback) {
+        script.onload = script.onreadystatechange = function() {
+            if (!r && (!this.readyState || this.readyState == 'complete')) {
+                r = true;
+                callback();
+            }
+        };
+    }
+    script.onerror = function() {
+        if (isSubmit) {
+            if (script.src.length > 10000) {
+                _show_error("3", "Desculpe, seu envio falhou. Deixe suas respostas mais curtas e tente novamente.");
+            } else {
+                _show_error("3", "Desculpe, seu envio falhou. Tente novamente.");
+            }
+            submitButton.disabled = false;
+            submitButton.classList.remove('processing');
+        }
+    }
+
+    head.appendChild(script);
+};
+(function() {
+    var iti;
+    if (window.location.search.search("excludeform") !== -1) return false;
+    var getCookie = function(name) {
+        var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+        return match ? match[2] : localStorage.getItem(name);
+    }
+    var setCookie = function(name, value) {
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+        now.setTime(expireTime);
+        document.cookie = name + '=' + value + '; expires=' + now + ';path=/; Secure; SameSite=Lax;';
+        localStorage.setItem(name, value);
+    }
+    var addEvent = function(element, event, func) {
+        if (element.addEventListener) {
+            element.addEventListener(event, func);
+        } else {
+            var oldFunc = element['on' + event];
+            element['on' + event] = function() {
+                oldFunc.apply(this, arguments);
+                func.apply(this, arguments);
+            };
+        }
+    }
+    var _removed = false;
+        var form_to_submit = document.getElementById('_form_3_');
+    var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+    var getUrlParam = function(name) {
+        if (name.toLowerCase() !== 'email') {
+            var params = new URLSearchParams(window.location.search);
+            return params.get(name) || false;
+        }
+        // email is a special case because a plus is valid in the email address
+        var qString = window.location.search;
+        if (!qString) {
+            return false;
+        }
+        var parameters = qString.substr(1).split('&');
+        for (var i = 0; i < parameters.length; i++) {
+            var parameter = parameters[i].split('=');
+            if (parameter[0].toLowerCase() === 'email') {
+                return parameter[1] === undefined ? true : decodeURIComponent(parameter[1]);
+            }
+        }
+        return false;
+    };
+
+    var acctDateFormat = "%d/%m/%Y";
+    var getNormalizedDate = function(date, acctFormat) {
+        var decodedDate = decodeURIComponent(date);
+        if (acctFormat && acctFormat.match(/(%d|%e).*%m/gi) !== null) {
+            return decodedDate.replace(/(\d{2}).*(\d{2}).*(\d{4})/g, '$3-$2-$1');
+        } else if (Date.parse(decodedDate)) {
+            var dateObj = new Date(decodedDate);
+            var year = dateObj.getFullYear();
+            var month = dateObj.getMonth() + 1;
+            var day = dateObj.getDate();
+            return `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`;
+        }
+        return false;
+    };
+
+    var getNormalizedTime = function(time) {
+        var hour, minutes;
+        var decodedTime = decodeURIComponent(time);
+        var timeParts = Array.from(decodedTime.matchAll(/(\d{1,2}):(\d{1,2})\W*([AaPp][Mm])?/gm))[0];
+        if (timeParts[3]) { // 12 hour format
+            var isPM = timeParts[3].toLowerCase() === 'pm';
+            if (isPM) {
+                hour = parseInt(timeParts[1]) === 12 ? '12' : `${parseInt(timeParts[1]) + 12}`;
+            } else {
+                hour = parseInt(timeParts[1]) === 12 ? '0' : timeParts[1];
+            }
+        } else { // 24 hour format
+            hour = timeParts[1];
+        }
+        var normalizedHour = parseInt(hour) < 10 ? `0${parseInt(hour)}` : hour;
+        var minutes = timeParts[2];
+        return `${normalizedHour}:${minutes}`;
+    };
+
+    for (var i = 0; i < allInputs.length; i++) {
+        var regexStr = "field\\[(\\d+)\\]";
+        var results = new RegExp(regexStr).exec(allInputs[i].name);
+        if (results != undefined) {
+            allInputs[i].dataset.name = allInputs[i].name.match(/\[time\]$/)
+                ? `${window.cfields[results[1]]}_time`
+                : window.cfields[results[1]];
+        } else {
+            allInputs[i].dataset.name = allInputs[i].name;
+        }
+        var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+        if (fieldVal) {
+            if (allInputs[i].dataset.autofill === "false") {
+                continue;
+            }
+            if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+                if (allInputs[i].value == fieldVal) {
+                    allInputs[i].checked = true;
+                }
+            } else if (allInputs[i].type == "date") {
+                allInputs[i].value = getNormalizedDate(fieldVal, acctDateFormat);
+            } else if (allInputs[i].type == "time") {
+                allInputs[i].value = getNormalizedTime(fieldVal);
+            } else {
+                allInputs[i].value = fieldVal;
+            }
+        }
+    }
+
+    var remove_tooltips = function() {
+        for (var i = 0; i < tooltips.length; i++) {
+            tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+        }
+        tooltips = [];
+    };
+    var remove_tooltip = function(elem) {
+        for (var i = 0; i < tooltips.length; i++) {
+            if (tooltips[i].elem === elem) {
+                tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+                tooltips.splice(i, 1);
+                return;
+            }
+        }
+    };
+    var create_tooltip = function(elem, text) {
+        var tooltip = document.createElement('div'),
+            arrow = document.createElement('div'),
+            inner = document.createElement('div'), new_tooltip = {};
+        tooltip.id = `${elem.id}-error`;
+        tooltip.setAttribute('role', 'alert')
+        if (elem.type != 'radio' && (elem.type != 'checkbox' || elem.name === 'sms_consent')) {
+            tooltip.className = '_error';
+            arrow.className = '_error-arrow';
+            inner.className = '_error-inner';
+            inner.innerHTML = text;
+            tooltip.appendChild(arrow);
+            tooltip.appendChild(inner);
+            elem.parentNode.appendChild(tooltip);
+        } else {
+            tooltip.className = '_error-inner _no_arrow';
+            tooltip.innerHTML = text;
+            elem.parentNode.insertBefore(tooltip, elem);
+            new_tooltip.no_arrow = true;
+        }
+        new_tooltip.tip = tooltip;
+        new_tooltip.elem = elem;
+        tooltips.push(new_tooltip);
+        return new_tooltip;
+    };
+    var resize_tooltip = function(tooltip) {
+        var rect = tooltip.elem.getBoundingClientRect();
+        var doc = document.documentElement,
+            scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+        if (scrollPosition < 40) {
+            tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+        } else {
+            tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+        }
+    };
+    var resize_tooltips = function() {
+        if (_removed) return;
+        for (var i = 0; i < tooltips.length; i++) {
+            if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+        }
+    };
+    var validate_field = function(elem, remove) {
+        var tooltip = null, value = elem.value, no_error = true;
+        remove ? remove_tooltip(elem) : false;
+        elem.removeAttribute('aria-invalid');
+        elem.removeAttribute('aria-describedby');
+        if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+        if (elem.getAttribute('required') !== null) {
+            if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+                var elems = form_to_submit.elements[elem.name];
+                if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+                    no_error = elem.checked;
+                }
+                else {
+                    no_error = false;
+                    for (var i = 0; i < elems.length; i++) {
+                        if (elems[i].checked) no_error = true;
+                    }
+                }
+                if (!no_error) {
+                    tooltip = create_tooltip(elem, "Por favor, selecione uma opção.");
+                }
+            } else if (elem.type =='checkbox') {
+                var elems = form_to_submit.elements[elem.name], found = false, err = [];
+                no_error = true;
+                for (var i = 0; i < elems.length; i++) {
+                    if (elems[i].getAttribute('required') === null) continue;
+                    if (!found && elems[i] !== elem) return true;
+                    found = true;
+                    elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+                    if (!elems[i].checked) {
+                        no_error = false;
+                        elems[i].className = elems[i].className + ' _has_error';
+                        err.push("Marcar %s é necessário".replace("%s", elems[i].value));
+                    }
+                }
+                if (!no_error) {
+                    tooltip = create_tooltip(elem, err.join('<br/>'));
+                }
+            } else if (elem.tagName == 'SELECT') {
+                var selected = true;
+                if (elem.multiple) {
+                    selected = false;
+                    for (var i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].selected) {
+                            selected = true;
+                            break;
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].selected
+                            && (!elem.options[i].value
+                            || (elem.options[i].value.match(/\n/g)))
+                        ) {
+                            selected = false;
+                        }
+                    }
+                }
+                if (!selected) {
+                    elem.className = elem.className + ' _has_error';
+                    no_error = false;
+                    tooltip = create_tooltip(elem, "Por favor, selecione uma opção.");
+                }
+            } else if (value === undefined || value === null || value === '') {
+                elem.className = elem.className + ' _has_error';
+                no_error = false;
+                tooltip = create_tooltip(elem, "Este campo é necessário.");
+            }
+        }
+        if (no_error && elem.name == 'email') {
+            if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+                elem.className = elem.className + ' _has_error';
+                no_error = false;
+                tooltip = create_tooltip(elem, "Digite um email válido");
+            }
+        }
+        if (no_error && (elem.id == 'phone')) {
+            if (elem.value.trim() && typeof iti != 'undefined' && !iti.isValidNumber()) {
+                elem.className = elem.className + ' _has_error';
+                no_error = false;
+                tooltip = create_tooltip(elem, "Insira um número de telefone válido.");
+            }
+        }
+        if (no_error && /date_field/.test(elem.className)) {
+            if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+                elem.className = elem.className + ' _has_error';
+                no_error = false;
+                tooltip = create_tooltip(elem, "Digite uma data válida.");
+            }
+        }
+
+        if (no_error && elem.name === 'sms_consent') {
+            const showError = !!elem.attributes.required && !elem.checked;
+            if (showError) {
+                elem.className = elem.className + ' _has_error';
+                no_error = false;
+                tooltip = create_tooltip(elem, "Marque esta caixa para continuar");
+            } else {
+                elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+            }
+        }
+        tooltip ? resize_tooltip(tooltip) : false;
+        if (!no_error && elem.hasAttribute('id')) {
+            elem.setAttribute('aria-invalid', 'true');
+            elem.setAttribute('aria-describedby', `${elem.id}-error`);
+        }
+        return no_error;
+    };
+    var needs_validate = function(el) {
+        if(el.getAttribute('required') !== null){
+            return true;
+        }
+        if((el.name === 'email' || el.name === 'phone' || el.id === 'sms_consent') && el.value !== ""){
+            return true;
+        }
+
+        return false;
+    };
+    var validate_email_or_phone_required = function() {
+        var emailInput = form_to_submit.querySelector('input[name="email"]');
+        var phoneInput = form_to_submit.querySelector('input[name="phone"]');
+        if (!emailInput && !phoneInput) {
+            return true;
+        }
+        var hasEmailValue = emailInput && emailInput.value.trim() !== '';
+        var hasPhoneValue = phoneInput && phoneInput.value.trim() !== '';
+        if (hasEmailValue || hasPhoneValue) {
+            return true;
+        }
+        var errorField = emailInput || phoneInput;
+        errorField.className = errorField.className.replace(/ ?_has_error ?/g, '') + ' _has_error';
+        var tooltip = create_tooltip(
+            errorField,
+            "Os formulários devem ter um campo de email ou um campo de telefone"
+        );
+        resize_tooltip(tooltip);
+        errorField.setAttribute('aria-invalid', 'true');
+        if (errorField.hasAttribute('id')) {
+            errorField.setAttribute('aria-describedby', errorField.id + '-error');
+        }
+        return false;
+    };
+    var validate_form = function(e) {
+        var err = form_to_submit.querySelector('._form_error'), no_error = true;
+        if (!submitted) {
+            submitted = true;
+            for (var i = 0, len = allInputs.length; i < len; i++) {
+                var input = allInputs[i];
+                if (needs_validate(input)) {
+                    if (input.type == 'text' || input.type == 'number' || input.type == 'time' || input.type == 'tel') {
+                        addEvent(input, 'blur', function() {
+                            this.value = this.value.trim();
+                            validate_field(this, true);
+                        });
+                        addEvent(input, 'input', function() {
+                            validate_field(this, true);
+                        });
+                    } else if (input.type == 'radio' || input.type == 'checkbox') {
+                        (function(el) {
+                            function getElementsArray(name){
+                                const value =  form_to_submit.elements[name];
+                                if (Array.isArray(value)){
+                                    return value;
+                                }
+                                return [value];
+                            }
+                            var radios = getElementsArray(el.name);
+                            for (var i = 0; i < radios.length; i++) {
+                                addEvent(radios[i], 'change', function() {
+                                    validate_field(el, true);
+                                });
+                            }
+                        })(input);
+                    } else if (input.tagName == 'SELECT') {
+                        addEvent(input, 'change', function() {
+                            validate_field(this, true);
+                        });
+                    } else if (input.type == 'textarea'){
+                        addEvent(input, 'input', function() {
+                            validate_field(this, true);
+                        });
+                    }
+                }
+            }
+        }
+        remove_tooltips();
+        for (var i = 0, len = allInputs.length; i < len; i++) {
+            var elem = allInputs[i];
+            if (needs_validate(elem)) {
+                if (elem.tagName.toLowerCase() !== "select") {
+                    elem.value = elem.value.trim();
+                }
+                validate_field(elem) ? true : no_error = false;
+            }
+        }
+        if (!validate_email_or_phone_required()) {
+            no_error = false;
+        }
+        if (!no_error && e) {
+            e.preventDefault();
+        }
+        if (!no_error) {
+            const firstFocusableError = form_to_submit.querySelector('._has_error:not([disabled])');
+            if (firstFocusableError && typeof firstFocusableError.focus === 'function') {
+                firstFocusableError.focus();
+            }
+        }
+        resize_tooltips();
+        return no_error;
+    };
+    addEvent(window, 'resize', resize_tooltips);
+    addEvent(window, 'scroll', resize_tooltips);
+    var initializePhoneInput = function(inputPhone) {
+
+        const stylesheetLink = document.createElement('link');
+        stylesheetLink.rel = 'stylesheet';
+        stylesheetLink.href = 'https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.0/build/css/intlTelInput.css';
+        document.head.appendChild(stylesheetLink);
+
+        window._load_script('https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.0/build/js/intlTelInput.min.js', function() {
+            inputPhone.setAttribute("name", "phone-iti");
+            iti = intlTelInput(inputPhone, {
+                loadUtils: () => import('https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.0/build/js/utils.js'),
+                hiddenInput: (telInputName) => ({
+                    phone: 'phone'
+                }),
+                separateDialCode: true,
+                autoPlaceholder: 'aggressive',
+                initialCountry: "br",
+            });
+        }, false);
+    }
+    var inputPhone = form_to_submit.querySelector('input[name="phone"]');
+    if(inputPhone) {
+        initializePhoneInput(inputPhone);
+    }
+
+    var _form_serialize = function(form){if(!form||form.nodeName!=="FORM"){return }var i,j,q=[];for(i=0;i<form.elements.length;i++){if(form.elements[i].name===""){continue}switch(form.elements[i].nodeName){case"INPUT":switch(form.elements[i].type){case"tel":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].previousSibling.querySelector('div.iti__selected-dial-code').innerText)+encodeURIComponent(" ")+encodeURIComponent(form.elements[i].value));break;case"text":case"number":case"date":case"time":case"hidden":case"password":case"button":case"reset":case"submit":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"checkbox":case"radio":if(form.elements[i].checked){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value))}break;case"file":break}break;case"TEXTAREA":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"SELECT":switch(form.elements[i].type){case"select-one":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break;case"select-multiple":for(j=0;j<form.elements[i].options.length;j++){if(form.elements[i].options[j].selected){q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].options[j].value))}}break}break;case"BUTTON":switch(form.elements[i].type){case"reset":case"submit":case"button":q.push(form.elements[i].name+"="+encodeURIComponent(form.elements[i].value));break}break}}return q.join("&")};
+
+    const formSupportsPost = false;
+    var form_submit = function(e) {
+
+        e.preventDefault();
+        if(form_to_submit.querySelector('input[name="phone"]') && typeof iti != 'undefined') {
+            form_to_submit.querySelector('input[name="phone"]').value = iti.getNumber();
+        }
+        if (validate_form()) {
+            // use this trick to get the submit button & disable it using plain javascript
+            var submitButton = e.target.querySelector('#_form_3_submit');
+            submitButton.disabled = true;
+            submitButton.classList.add('processing');
+                    var serialized = _form_serialize(document.getElementById('_form_3_')).replace(/%0A/g, '\\n');
+            var err = form_to_submit.querySelector('._form_error');
+            err ? err.parentNode.removeChild(err) : false;
+            async function submitForm() {
+                var formData = new FormData();
+                const searchParams = new URLSearchParams(serialized);
+                searchParams.forEach((value, key) => {
+                    if (key !== 'hideButton') {
+                        formData.append(key, value);
+                    }
+                });
+                let request = {
+                    headers: {
+                        "Accept": "application/json"
+                    },
+                    body: formData,
+                    method: "POST"
+                };
+
+                let pageUrlParams = new URLSearchParams(window.location.search);
+                if (pageUrlParams.has('t')) {
+                    request.headers.Authorization = 'Bearer ' + pageUrlParams.get('t');
+                }
+                const response = await fetch('https://dermomed.activehosted.com/proc.php?jsonp=true', request);
+
+                return response.json();
+            }
+            if (formSupportsPost) {
+                submitForm().then((data) => {
+                    eval(data.js);
+                }).catch(() => {
+                    _show_error("3", "Desculpe, seu envio falhou. Tente novamente.");
+                });
+            } else {
+                _load_script('https://dermomed.activehosted.com/proc.php?' + serialized + '&jsonp=true', null, true);
+            }
+        }
+        return false;
+    };
+    addEvent(form_to_submit, 'submit', form_submit);
+})();
+
+</script>
+<style>
+/* ---- formulário 3 do ActiveCampaign no visual da LP ---- */
+#_form_3_{margin:0!important;padding:0!important;max-width:none!important;background:transparent!important;font-family:inherit!important;color:var(--tinta)}
+#_form_3_ ._form-content,#_form_3_._inline-form ._form-content{font-family:inherit!important}
+#_form_3_ ._form_element{margin-bottom:16px}
+#_form_3_ ._form-label,#_form_3_._inline-form ._form-label{font-family:inherit!important;font-size:.79rem!important;font-weight:700!important;color:var(--tinta)!important;margin-bottom:6px;letter-spacing:.01em;line-height:1.4!important}
+#_form_3_ .field-required{color:var(--laranja)}
+#_form_3_ ._form_element input[type="text"],#_form_3_ ._form_element input[type="tel"],#_form_3_ ._form_element select,#_form_3_ .iti input{
+  width:100%;min-height:50px;padding:13px 14px!important;border:1.5px solid var(--linha)!important;border-radius:var(--r-sm)!important;
+  background:#fff!important;font-family:inherit!important;font-size:.96rem!important;color:var(--tinta)!important;transition:border-color .15s,box-shadow .15s}
+#_form_3_ ._form_element select{appearance:auto}
+#_form_3_ input::placeholder{color:#a9a3b5!important}
+#_form_3_ ._form_element input:focus,#_form_3_ ._form_element select:focus,#_form_3_ .iti input:focus{outline:none;border-color:var(--roxo)!important;box-shadow:0 0 0 3px rgba(71,39,105,.13)}
+#_form_3_ input._has_error{border-color:var(--laranja)!important;box-shadow:0 0 0 3px rgba(234,83,50,.12)}
+#_form_3_ .iti--separate-dial-code input,#_form_3_ .iti--allow-dropdown input{padding-left:92px!important}
+#_form_3_ .iti__country-list{min-width:0;max-width:calc(100vw - 60px);font-size:.88rem}
+#_form_3_ ._error-inner{font-family:inherit;font-weight:600;font-size:.78rem;background-color:var(--laranja-100);color:var(--laranja-700);box-shadow:var(--sombra)}
+#_form_3_ ._error._above ._error-arrow{border-top-color:var(--laranja-100)}
+#_form_3_ ._error._below ._error-arrow{border-bottom-color:var(--laranja-100)}
+#_form_3_._inline-form ._submit,#_form_3_ ._submit{display:flex;align-items:center;justify-content:center;min-height:50px;margin-top:4px!important;
+  background:var(--laranja)!important;color:#fff!important;border-radius:999px!important;padding:13px 24px!important;font-family:inherit!important;
+  font-size:.88rem!important;font-weight:700!important;letter-spacing:.02em;text-transform:uppercase;box-shadow:0 6px 18px rgba(234,83,50,.26);transition:background-color .16s}
+#_form_3_ ._submit:hover{background:var(--laranja-700)!important}
+#_form_3_ ._submit.processing::before{background-image:linear-gradient(var(--laranja),var(--laranja)),conic-gradient(var(--laranja),#fff)}
+#_form_3_ ._form-thank-you{text-align:left!important;font-size:.92rem!important;font-family:inherit!important;color:var(--tinta)!important;
+  background:var(--roxo-050);border:1px solid var(--roxo-200);border-radius:var(--r-sm);padding:16px 18px;line-height:1.55}
+.destaque .painel p{color:var(--suave)}
+#_form_3_ ._error{position:static!important;padding:6px 0 0!important}
+#_form_3_ ._error-arrow{display:none}
+#_form_3_ ._error-inner{padding:8px 12px 8px 32px!important;background-position:10px center!important;text-align:left!important;box-shadow:none!important;line-height:1.35!important}
+#_form_3_ ._field-wrapper ._error + ._error{display:none!important}
+#_form_3_ ._form-branding{margin-top:14px!important;color:var(--suave)!important;font-size:11px!important}
+#_form_3_ ._form-branding ._logo{opacity:.55}
+@media (min-width:320px) and (max-width:667px){
+  #_form_3_ ._form_element{margin:0 0 16px}
+  #_form_3_ input[type="text"]{font-size:16px!important}
+  #_form_3_ button[type="submit"]{padding:13px 24px!important;font-size:.88rem!important}
+}
+</style>
+<script>
+/* depois que o ActiveCampaign confirma o envio: mensagem da LP + evento de conversão */
+window._form_callback = function(id){
+  var form = document.getElementById("_form_" + id + "_");
+  var mail = (form.querySelector('[name="email"]') || {}).value || "";
+  var perfil = (form.querySelector('[name="field[7]"]') || {}).value || "";
+  var box = form.querySelector("._form-thank-you");
+  if(box) box.innerHTML = "<b>Pronto!</b> Em instantes você recebe em <b>" + esc(mail) +
+    "</b> o link com os protocolos organizados por área e tecnologia. Confira também a caixa de spam.";
+  track("pacote_lead", { perfil: perfil });
+};
+</script>
+          <p class="mini" style="margin-top:12px">Seus dados vão direto para a equipe da Dermomed. Sem spam.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="especialista">
+  <div class="wrap centro reveal">
+    <h2 class="t">Quer ajuda para escolher a tecnologia certa?</h2>
+    <p class="lead">Nossa equipe pode avaliar com você qual equipamento faz sentido para sua área de atuação, rotina e objetivos.</p>
+    <div class="acoes acoes--centro">
+      <a class="btn btn--laranja btn--caixa" data-cfg="especialista" data-evt="especialista_whatsapp" target="_blank" rel="noopener" href="#">Falar com um especialista</a>
+      <a class="btn btn--linha" data-cfg="portal" data-evt="rodape_voltar_portal" href="#">Voltar ao Portal DM</a>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="wrap">
+    <div class="rodape__grade">
+      <div>
+        <h4>Portal DM · Protocolos</h4>
+        <p>Conteúdo técnico de apoio à aplicação. Não substitui avaliação profissional, treinamento do fabricante nem o manual de cada equipamento.</p>
+      </div>
+      <div class="rodape__links">
+        <h4>Navegar</h4>
+        <a href="#biblioteca">Biblioteca de protocolos</a>
+        <a href="#pacote">Receber o pacote</a>
+        <a data-cfg="especialista" target="_blank" rel="noopener" href="#" data-evt="rodape_especialista">Falar com um especialista</a>
+        <a data-cfg="portal" href="#" data-evt="rodape_portal">Voltar ao Portal DM</a>
+        <a data-cfg="privacidade" target="_blank" rel="noopener" href="#">Política de privacidade</a>
+        <button type="button" id="areaRestrita" hidden data-evt="rodape_area_restrita"
+          style="border:0;background:none;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer">Área restrita da equipe</button>
+      </div>
+    </div>
+    <p class="rodape__fim" id="rodapeFim"></p>
+  </div>
+</footer>
+
+<a class="zap" data-cfg="geral" data-evt="zap_flutuante" target="_blank" rel="noopener" href="#" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.13c-.24.68-1.4 1.3-1.94 1.34-.5.05-.98.23-3.3-.69-2.79-1.1-4.55-3.95-4.69-4.14-.13-.19-1.11-1.48-1.11-2.82s.7-2 .95-2.28c.25-.27.54-.34.72-.34.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.94.87 2.08.07.14.12.3.02.49-.09.19-.14.3-.28.47-.14.16-.29.36-.42.49-.14.14-.28.29-.12.56.16.28.72 1.18 1.54 1.91 1.06.94 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.25.09 1.62.76 1.9.9.28.14.46.21.53.32.07.12.07.66-.17 1.34z"/></svg>
+  <span>Fale conosco</span>
+</a>
+
+<!-- ---------- área restrita: entrada ---------- -->
+<div class="adm-porta" id="admPorta" role="dialog" aria-modal="true" aria-labelledby="admPortaTitulo">
+  <form id="admEntrar" novalidate>
+    <div class="adm-sinal">DM</div>
+    <span class="eyebrow">Área restrita</span>
+    <h2 id="admPortaTitulo">Editar os protocolos</h2>
+    <p class="mini" style="margin:8px 0 22px">Crie seções, mova protocolos entre elas e adicione novos. Nada vai ao ar antes de você publicar — e cada publicação fica salva no histórico do GitHub.</p>
+    <div class="campo" id="admCampoSenha">
+      <label for="admSenha">Token do GitHub <span class="req">*</span></label>
+      <input id="admSenha" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+      <span class="msg" id="admMsgSenha">Token inválido.</span>
+    </div>
+    <p class="mini" style="margin:-6px 0 18px">O token fica só neste navegador e some ao fechar a aba. Não tem um? Peça ao responsável pelo site.</p>
+    <button class="btn btn--laranja btn--bloco btn--caixa" type="submit" id="admBtnEntrar">Entrar</button>
+    <p class="mini" style="margin-top:16px"><button type="button" id="admVoltar" style="border:0;background:none;color:var(--roxo);font-weight:600;cursor:pointer;padding:0">← Voltar para a biblioteca</button></p>
+  </form>
+</div>
+
+<!-- ---------- área restrita: painel ---------- -->
+<div id="adm">
+  <header class="adm-topo">
+    <div class="wrap">
+      <div class="adm-marca">
+        <span class="adm-sinal">DM</span>
+        <span>Editando os protocolos<small id="admResumo"></small></span>
+      </div>
+      <div class="adm-acoes">
+        <span class="adm-pendente" id="admPendente">alterações não publicadas</span>
+        <button class="btn btn--linha btn--sm" id="admFechar">Ver a página</button>
+        <button class="btn btn--linha btn--sm" id="admSair">Sair</button>
+        <button class="btn btn--laranja btn--sm btn--caixa" id="admPublicar">Publicar</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap adm-colunas">
+    <aside class="adm-lateral">
+      <div class="adm-painel">
+        <div class="adm-painel__cab"><h3>Seções</h3></div>
+        <ul class="adm-secoes" id="admListaSecoes"></ul>
+        <button class="btn btn--linha btn--sm btn--bloco" id="admNovaSecao" style="margin-top:14px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>
+          Nova seção
+        </button>
+        <p class="mini" style="margin-top:14px">A ordem aqui é a ordem das abas na página. Use as setas para reordenar.</p>
+      </div>
+    </aside>
+
+    <div>
+      <div class="adm-painel">
+        <div class="adm-painel__cab">
+          <h3 id="admTituloSecao">Protocolos</h3>
+          <button class="btn btn--roxo btn--sm" id="admNovoProtocolo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="15" height="15"><path d="M12 5v14M5 12h14"/></svg>
+            Novo protocolo
+          </button>
+        </div>
+        <div class="campo" style="margin-bottom:18px">
+          <input id="admFiltro" type="search" placeholder="Filtrar por título, equipamento ou parâmetro" aria-label="Filtrar protocolos">
+        </div>
+        <div class="adm-lista" id="admListaProtocolos"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="adm-fundo" id="admFundo" role="dialog" aria-modal="true" aria-labelledby="admTituloModal">
+  <div class="adm-modal" id="admModal"></div>
+</div>
+<div class="adm-recado" id="admRecado" role="status" aria-live="polite"></div>
+
+<div class="fundo" id="fundo" role="dialog" aria-modal="true" aria-labelledby="ampTitulo">
+  <div class="amp" id="amp">
+    <div class="amp__arte" id="ampArte"></div>
+    <div class="amp__lado" id="ampLado"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — ponto único de edição de números e links.
+   ← TROQUE `portal` pela URL real do Portal DM antes de publicar.
+   ============================================================ */
+var CONFIG = {
+  canais: {
+    geral:        { numero:"5511921878969", texto:"Olá! Vim pela Biblioteca de Protocolos e gostaria de receber mais informações sobre..." },
+    especialista: { numero:"5511919290371", texto:"Olá! Vim pela Biblioteca de Protocolos e gostaria de falar com um especialista sobre qual equipamento faz sentido para mim." }
+  },
+  /* Leads: formulário 3 do ActiveCampaign, incorporado direto no HTML (seção #pacote). */
+  /* Repositório onde a área restrita grava o protocolos.json.
+     Vazio = descobre sozinho pelo endereço do GitHub Pages (usuario.github.io/repositorio).
+     Preencha se usar domínio próprio, ex.: dono:"dermomed", repo:"protocolos-dm". */
+  github: { dono:"mktgdm", repo:"protocolos-portal-dm", branch:"main", arquivo:"protocolos.json" },
+  links: {
+    portal      : "https://sistema-marketing-dermomed.netlify.app",
+    privacidade : "https://www.dermomed.com.br/pagina/politica-de-privacidade.html"
+  }
+};
+
+function track(evento, dados){
+  dados = dados || {}; dados.event = evento; dados.portal = "portal_dm";
+  try{
+    window.dataLayer = window.dataLayer || []; window.dataLayer.push(dados);
+    if (typeof window.gtag === "function") window.gtag("event", evento, dados);
+    if (typeof window.fbq  === "function") window.fbq("trackCustom", evento, dados);
+  }catch(e){}
+}
+function urlZap(canal, texto){
+  var c = CONFIG.canais[canal] || CONFIG.canais.geral;
+  return "https://wa.me/" + c.numero + "?text=" + encodeURIComponent(texto || c.texto);
+}
+function aplicarLinks(){
+  document.querySelectorAll("[data-cfg]").forEach(function(el){
+    var k = el.getAttribute("data-cfg");
+    var destino = CONFIG.canais[k] ? urlZap(k) : CONFIG.links[k];
+    if (destino) el.setAttribute("href", destino);
+  });
+}
+document.addEventListener("click", function(ev){
+  var alvo = ev.target.closest("[data-evt]");
+  if (!alvo) return;
+  track("clique_cta", {
+    cta     : alvo.getAttribute("data-evt"),
+    texto   : (alvo.textContent || "").trim().slice(0,60),
+    destino : alvo.getAttribute("href") || ""
+  });
+});
+
+/* ---------- famílias de tecnologia (ícone, não cor) ---------- */
+var IC = {
+  crio:'<path d="M12 3v18M5 7l14 10M19 7 5 17"/><path d="M12 6.5 9.8 4.6M12 6.5l2.2-1.9M12 17.5l-2.2 1.9M12 17.5l2.2 1.9"/>',
+  termica:'<path d="M9.5 13.6V5a2.5 2.5 0 0 1 5 0v8.6a4.5 4.5 0 1 1-5 0z"/><path d="M12 8.5v6.2"/>',
+  luz:'<circle cx="12" cy="12" r="3.6"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 12H2M22 12h-2.2M6.5 6.5 5 5M19 19l-1.5-1.5M17.5 6.5 19 5M5 19l1.5-1.5"/>',
+  mec:'<path d="M12 21V9"/><path d="M9 9h6l-1.2-5.2a1.9 1.9 0 0 0-3.6 0z"/><path d="M10.4 21h3.2"/>'
+};
+var FAM = {
+  crio:{n:"Crioterapia"}, termica:{n:"Térmica"},
+  luz:{n:"Luz & Laser"}, mec:{n:"Mecânica & Agulhas"}
+};
+var AREA_PADRAO = [
+  {k:"facial",n:"Facial"},{k:"corporal",n:"Corporal"},
+  {k:"intimo",n:"Íntimo"},{k:"capilar",n:"Capilar"},{k:"apoio",n:"Apoio"}
+];
+var D = "https://drive.google.com/file/d/";
+function thumb(id,w){ return "https://drive.google.com/thumbnail?id=" + id + "&sz=w" + w; }
+function nomeFam(f){ return (FAM[f] || {}).n || "Tecnologia"; }
+function icone(f,cls){
+  return '<span class="card__ic '+(cls||'')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+    'stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">'+(IC[f] || IC.mec)+'</svg></span>';
+}
+
+var SEMENTE = [
+/* ===== FACIAL ===== */
+{a:"facial",f:"termica",g:"Radiofrequência",t:"Flacidez facial",tech:"Hooke — radiofrequência com aplicador Cooling",
+ r:"Aquecimento controlado por hemiface com monitoramento infravermelho e finalização em Cooling.",
+ p:["40–42 °C","7 min / hemiface","início ~30 W"],
+ s:["Retirar adornos, higienizar e aplicar óleo vegetal Hooke em camada fina.","Dividir o rosto em hemiface direita e esquerda.","Aquecer até 40–42 °C partindo de ~30 W, aferindo com termômetro infravermelho a cada 40–60 s.","Movimentos circulares, em infinito ou W; lineares na mandíbula. Nunca parar o aplicador nem aplicar em pálpebras.","Finalizar com Cooling por 1–2 min, sem pressão, e orientar fotoprotetor."],
+ fl:[{t:"ProtocoloFlacidezFacial.jpg",id:"1XRDUSH_6oseQY6C2kP7EU_WKxeRElIci"},{t:"Protocolo Hooke — Facial.png",id:"1fvFvll1NbPkWW3TMC1Z-bt29CHOhgyxH"}]},
+
+{a:"facial",f:"termica",g:"Radiofrequência",t:"Rejuvenescimento facial",tech:"Dermotonus Esthetic — aplicador facial de RF",
+ r:"Mini protocolo de captação: subir a potência devagar até a temperatura ideal, respeitando a resposta de cada pele.",
+ p:["41 °C alvo","5–7 min pós-aquecimento","5 W bastaram no caso"],
+ s:["Iniciar sempre na potência mais baixa — 5 W foram suficientes para atingir 41 °C no caso demonstrado.","Cada paciente aquece em velocidade diferente conforme hidratação e resistência da pele.","Movimentos contínuos e circulares por 5 a 7 minutos após atingir a temperatura ideal.","Garantir temperatura uniforme em toda a área.","Dividir o atendimento em hemiface esquerda e direita."],
+ k:"Isca",fl:[{t:"DermotonusEstheticManychat.jpg",id:"1TINZiu_3HFtbLknAcdIUpCwX-BHYmL5b"}]},
+
+{a:"facial",f:"termica",g:"Radiofrequência",t:"Rejuvenescimento facial",tech:"Tecar HTM — transferência capacitiva e resistiva",
+ r:"Ficha de parâmetros enxuta do Tecar HTM para rejuvenescimento facial.",
+ p:["2,4 Hz","modo contínuo 40%","5 min","Step 114"],
+ s:["Higienizar a pele antes da aplicação.","Usar gel glicerinado com ativos como meio de contato.","Frequência 2,4 Hz, modo contínuo a 40%, Step 114.","Tempo de aplicação: 5 minutos.","Orientar uso de protetor solar após a sessão."],
+ fl:[{t:"TECARE HTM.jpg",id:"16xLM4UeJij0h525waB9lJ1b35XIgyWvj"}]},
+
+{a:"facial",f:"termica",g:"Radiofrequência",t:"Flacidez facial e corporal leve",tech:"Visage (Ibramed) — radiofrequência",
+ r:"Card de campanha com os parâmetros de rejuvenescimento e foco na pele feminina no climatério.",
+ p:["40–41 °C","5–7 min / área","4–6 sessões, 1×/semana"],
+ s:["Potência inicial baixa, ajustando até 40–41 °C na pele.","Movimentos contínuos e circulares.","5–7 min por área após atingir a temperatura ideal.","Trabalhar por hemiface para garantir simetria, com termômetro infravermelho.","Ciclo de 4 a 6 sessões, uma por semana."],
+ k:"Campanha",fl:[{t:"VisageOutubroRosa.jpg",id:"1Dz6FkhJvVYmla6Mh2S0yxbYZmNK6pIai"}]},
+
+{a:"facial",f:"mec",g:"Radiofrequência microagulhada",t:"Rítides, poros e flacidez leve",tech:"Needle RF (HTM) — RF microagulhada",
+ r:"Parâmetros de face e região íntima para radiofrequência fracionada com microagulhas.",
+ p:["0,8–1,5 mm face","80–120 W","2–3 passes","3–4 sessões / 30–45 dias"],
+ s:["Profundidade de 0,8 a 1,5 mm na face; 1,0 a 2,0 mm na região íntima, com treinamento específico.","Potência de 80 a 120 W, iniciando sempre na faixa mais baixa.","Velocidade 0,3–0,5 e sucção até 100% conforme o conforto da paciente.","2 a 3 passes por região, sem sobreposição direta.","3 a 4 sessões com intervalo de 30 a 45 dias."],
+ k:"Campanha",fl:[{t:"NeedleRFOutubroRosa.jpg",id:"1qYvAtjzHSx_Mdz4K8GeOolHDOy_tZKNr"},{t:"NeedleRF_Protocolo2.jpg",id:"1QQVqrH9zeC5UOXVStcfO0iM2BcZgYVOm"}]},
+
+{a:"facial",f:"luz",g:"Ultrassom microfocado (HIFU)",t:"Gordura localizada + colágeno",tech:"Sonofocus (Ibramed) — ultrassom microfocado",
+ r:"Protocolo corporal e facial do Sonofocus, sempre associando estímulo de colágeno ao tratar gordura.",
+ p:["14–18 J corporal","espaçador 20 mm > 40 mm de prega","1,5 / 3,0 / 4,5 mm"],
+ s:["Avaliar adipometria: pregas acima de 40 mm pedem espaçador de 20 mm no aplicador corporal.","Modo pontual, 14 a 18 J conforme a sensibilidade da paciente.","Face: espaçador 4,5 mm pontual 15 J → 3,0 mm varredura 18 J → 1,5 mm pontual 14 J.","Aplicador facial 3,0 mm em modo dinâmico a 18 J e depois 1,5 mm dinâmico a 15 J.","Nunca sobrepor disparos; sempre associar estímulo de colágeno ao tratar gordura localizada."],
+ k:"Isca",fl:[{t:"SonofocusManyChat.jpg",id:"1OckPM7I6w2DNZC0T9D_RNAJS8_qxbQqv"}]},
+
+{a:"facial",f:"luz",g:"Ultrassom microfocado (HIFU)",t:"Flacidez facial e papada",tech:"Ultramed 9D (Medical San) — micro e macrofocado",
+ r:"Aplicabilidade, parâmetros e ponteiras do HIFU Ultramed 9D — face, corpo e região íntima.",
+ p:["0,8–1,2 J / linha","1,5 / 3,0 / 4,5 mm face","6,0 / 9,0 mm corpo","1–2 sessões / ano"],
+ s:["Ponteiras faciais de 1,5, 3,0 e 4,5 mm; corporais e íntimas de 6,0 e 9,0 mm.","Energia média de 0,8 a 1,2 J por linha.","8 a 12 linhas em áreas pequenas; 20 a 30 em áreas maiores.","Região íntima: parâmetros conservadores na primeira sessão.","1 a 2 sessões por ano, com revisão a cada 6 meses."],
+ k:"Campanha",fl:[{t:"Ultramed9DOutubroRosa.jpg",id:"1IajIdY-NAJfhd-85bACm0270QTl8JpJx"}]},
+
+{a:"facial",f:"luz",g:"Laser Q-Switched",t:"Melasma e manchas superficiais",tech:"Ponteira KTP 532 nm (conversão do Nd:YAG 1064 nm)",
+ r:"Como o cristal KTP converte o 1064 nm em 532 nm e por que isso muda o alvo do tratamento.",
+ p:["532 nm","alvo: vermelho, laranja, amarelo","camada superficial"],
+ s:["O cristal KTP converte o comprimento de onda de 1064 nm em 532 nm.","O 532 nm é atraído por pigmentos vermelho, laranja e amarelo.","Entrega energia precisa e concentrada na camada superficial da pele.","Indicada especialmente para o tratamento de melasma.","Lesões pigmentadas e vasculares superficiais são o alvo natural da ponteira."],
+ k:"Isca",fl:[{t:"PonteiraKTPMany.jpg",id:"1-9PXXILtiXMJPP4As5977fJG6UfLDCln"}]},
+
+{a:"facial",f:"luz",g:"Laser Q-Switched",t:"Melasma, lentigo e cicatrizes",tech:"Syrius (Ibramed) — Q-Switched Nd:YAG, 4 ponteiras",
+ r:"Panorama de indicações do Syrius, do black peel à remoção de tatuagem.",
+ p:["Q-Switched Nd:YAG","4 ponteiras","protocolos pré-programados"],
+ s:["Laser Q-Switched Nd:YAG com quatro ponteiras especializadas e interface com protocolos pré-programados.","Melasma, black peel e lentigo solar.","Clareamento íntimo e de axilas.","Cicatrizes de acne, poros dilatados, telangiectasias e queratose pilar.","Remoção de tatuagem e micropigmentação; rejuvenescimento de face e mãos."],
+ k:"Isca",fl:[{t:"ManyChatSyrius.jpg",id:"1oFXZOJn7fU1egxpLxdemdnK9xpl0xzxK"}]},
+
+{a:"facial",f:"luz",g:"Luz Intensa Pulsada",t:"Manchas senis",tech:"LIP Lyra — luz intensa pulsada, modo Manchas",
+ r:"Clareamento progressivo de manchas senis, com teste prévio obrigatório e fluência ajustada ao fototipo.",
+ p:["filtro 530 nm","10–18 J/cm²","pulso 10–20 ms","2–4 sessões / 21–30 dias"],
+ s:["Higienizar a área, fazer tricotomia se necessário, aplicar gel condutor e óculos de proteção.","Teste em mancha bem delimitada com 1 a 2 disparos e fluência ajustada ao fototipo.","Modo Manchas, filtro 530 nm, fluência 10–18 J/cm², pulso 10–20 ms.","Resfriamento ligado e disparo pontual sobre as manchas.","2 a 4 sessões com intervalo de 21 a 30 dias; fotoproteção rigorosa e reavaliação em 15 dias."],
+ fl:[{t:"ProtocoloLIPManchaSenis.jpeg",id:"1oVdN-38FnWKSX5ZuOYeUCJI8saILxDyZ"}]},
+
+{a:"facial",f:"luz",g:"Luz Intensa Pulsada",t:"Microvasos e uniformização",tech:"Light Pulse HTM — LIP, modo Vascular",
+ r:"Disparo pontual sobre o vaso até observar escurecimento ou contração — sem sobrepor.",
+ p:["filtro 530–590 nm","12–18 J/cm²","pulso 10–20 ms","15–30 min"],
+ s:["Higienizar a pele, aplicar gel condutor, óculos de proteção e selecionar a programação vascular.","Modo Vascular, filtro 530–590 nm, fluência 12–18 J/cm², pulso 10–20 ms, resfriamento ligado.","Aplicador perpendicular à pele, disparo pontual sobre o vaso, sem sobrepor disparos.","Observar leve escurecimento ou contração do vaso; sessão de 15 a 30 minutos.","1 sessão a cada 21–30 dias, média de 2 a 4; pós sem sol por 7 dias e sem ácidos por 72 h."],
+ fl:[{t:"ProtocoloLightPulse.jpg",id:"1lvoZHjkWNGDMcmX9j2rZYMFcmaG5TpxM"}]},
+
+{a:"facial",f:"luz",g:"Jato de plasma",t:"Flacidez palpebral, cicatrizes e manchas",tech:"Plasmaporação — jato de plasma (KLD)",
+ r:"Indicações e contraindicações da plasmaporação, incluindo blefaroplastia sem corte e drug delivery.",
+ p:["blefaroplastia não cirúrgica","drug delivery","estrias e cicatrizes"],
+ s:["A plasmaporação usa o jato de plasma para aumentar a permeabilidade da pele.","Blefaroplastia não cirúrgica para flacidez leve das pálpebras.","Textura irregular, cicatrizes de acne e estrias brancas ou vermelhas.","Clareamento de manchas solares e olheiras; drug delivery para hidratação profunda e acne.","Contraindicado em gestantes, lactantes, marcapasso, implantes metálicos, lesões ativas, queloides e isotretinoína recente."],
+ fl:[{t:"Plasmaporacao.jpeg",id:"14Wne5rknEkp0ZAuMFv2gYkVL1UvowXEe"}]},
+
+{a:"facial",f:"luz",g:"Jato de plasma",t:"Procedimentos com plasma",tech:"Hygiaplasma (KLD) — jato de plasma",
+ r:"Card de captação destacando a potência de 3.000 mW em modo contínuo.",
+ p:["3.000 mW","modo contínuo"],
+ s:["Potência de 3.000 mW.","Modo contínuo.","Foco em segurança máxima durante a aplicação.","Procedimentos rápidos com resultado expressivo."],
+ k:"Isca",fl:[{t:"HygiaplasmaManychat.jpg",id:"1MWCmjTgkU7cS4fSDaiRLOJc7LPmByOQw"}]},
+
+{a:"facial",f:"luz",g:"LED e fototerapia",t:"Rejuvenescimento, acne e manchas",tech:"Máscara Facial LED e Pescoço HTM",
+ r:"O que cada cor de LED faz e quando escolher cada uma.",
+ p:["vermelho","azul","verde","âmbar","violeta"],
+ s:["Vermelho: metabolismo celular, colágeno, cicatrização e crescimento folicular.","Azul: bactericida e calmante — acne ativa e pós-limpeza de pele.","Verde: circulação linfática, clareamento de manchas e rosácea.","Âmbar: colágeno e elastina com efeito anti-inflamatório — peles maduras e pós-peeling.","Violeta: imunidade, psoríase e suporte à produção de vitamina D."],
+ k:"Isca",fl:[{t:"mascaraledmanychat.jpg",id:"1j8N3Mkxlaow4MjYmjiep5zwcB9KI5wJI"}]},
+
+{a:"facial",f:"luz",g:"LED e fototerapia",t:"Técnica pontual de aplicação",tech:"Endophoton (KLD) — cluster de LED",
+ r:"Como conduzir a aplicação pontual do cluster: um ponto de cada vez, dose fechada.",
+ p:["3 J por ponto","1 min 30 s","cluster azul"],
+ s:["Técnica pontual: aplicação do LED por área do cluster.","Selecionar o tempo desejado para cada ponto.","Manter o cluster parado sobre a área, a pequena distância da pele.","Ao terminar o ponto, acionar o cluster imediatamente ao lado da área tratada.","Dose de 3 J por ponto (1 min 30 s) com cluster de LED azul."],
+ fl:[{t:"AplicacaoEndophoton.jpg",id:"1rum7vxc83AR1C-bw2-wcty1F0zpgb17N"}]},
+
+{a:"facial",f:"mec",g:"Limpeza de pele",t:"Limpeza de pele — 6 passos",tech:"Stimulus Face Maxx (alta frequência) + Beauty Steam (ozônio)",
+ r:"Protocolo completo, da higienização à fotoproteção, com vapor de ozônio e alta frequência.",
+ p:["vapor 8–10 min a 30–40 cm","AF 3–5 min","máscara 10–15 min","manutenção 30 dias"],
+ s:["Higienizar com sabonete adequado ao biotipo cutâneo.","Emoliência com vapor de ozônio a 30–40 cm por 8 a 10 minutos.","Extração manual com técnica e assepsia.","Alta frequência com eletrodo cebolão ou saturador por 3 a 5 minutos.","Máscara calmante, cicatrizante ou seborreguladora por 10–15 min; tônico, sérum e protetor solar. Manutenção a cada 30 dias."],
+ fl:[{t:"ProtocoloLimpezaDePele.jpg",id:"11UOdWndo3PT0h9feOXMmD5E90m8nMVFl"}]},
+
+{a:"facial",f:"mec",g:"Limpeza de pele",t:"Limpeza de pele oleosa e acneica",tech:"Beauty Steam Maxx (ozônio) + Beauty Face (alta frequência e LED)",
+ r:"Versão com LED azul na finalização e tempos de vapor separados por sensibilidade da pele.",
+ p:["vapor 8–10 min oleosa / 5–7 min sensível","AF 3–5 min","LED azul 10 min"],
+ s:["Higienização com demaquilante e sabonete, seguida de esfoliação suave por 2–3 min.","Emoliência com vapor a 30–40 cm: 8–10 min em pele oleosa, 5–7 min em pele sensível.","Extração manual delicada com luvas e gaze, evitando áreas inflamadas.","Alta frequência com eletrodo cogumelo, direta ou em faiscamento, por 3 a 5 min.","Máscara conforme o tipo de pele (10–15 min), LED azul por 10 min, sérum e protetor solar."],
+ fl:[{t:"Protocolo_Limpeza_de_Pele.jpg",id:"1pxfMs2xx2mGFlp5oc_3AMEixCr8usAgN"}]},
+
+/* ===== CORPORAL ===== */
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Gordura localizada",tech:"Criolipólise de placas — modo convencional",
+ r:"Protocolo completo com tabela de tempo por adipometria, posicionamento das placas e manobra de reperfusão.",
+ p:["−5 °C","40–80 min","até 6 placas"],
+ s:["Anamnese, adipometria, circunferência e fotos; dividir a área em quadrantes.","Membrana anticongelante sem dobras e filme PVC; placas paralelas fixadas com faixa elástica.","Temperatura −5 °C em modo contínuo, 40 a 80 min por área, até 6 placas simultâneas.","Tempo conforme a prega: 10 mm/40 min · 20 mm/50 min · 30 mm/60 min · 40 mm/70 min · 50 mm/80 min.","Finalizar com manobra de reperfusão de 2–3 min e checar a integridade cutânea."],
+ fl:[{t:"ProtocoloGorduraLocalizada.jpg",id:"1ykIN3nXRw79Kc0qc_jer1p4MQ2S67xVA"},{t:"Criolipólise de placas (PDF)",id:"1kd3FtmW6p5eKlyxYkNOZWVav95d_YDdL"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Adipometria × temperatura × tempo",tech:"Polarys Plaxx — tabela de parametrização",
+ r:"A tabela que fecha a discussão: quanto de prega pede quanto de frio e por quanto tempo.",
+ p:["10–19 mm → −6 °C / 30 min","20–29 mm → −8 °C / 50 min","30–39 mm → −10 °C / 60 min","≥40 mm → −11 °C / 65 min"],
+ s:["10–19 mm de prega: −6 °C por 30 minutos.","20–29 mm: −8 °C por 50 minutos.","30–39 mm: −10 °C por 60 minutos.","40 mm ou mais: −11 °C por 65 minutos.","Membrana anticongelante com registro Anvisa, acoplamento correto (evitar tireoide) e reavaliação da pele a cada 10 min."],
+ k:"Referência",fl:[{t:"ISCA POLARYS.jpg",id:"1fDl1ORvATKxvEic0c1MDLBNPBgOeUROn"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Parâmetros técnicos de crio",tech:"Criolipólise / crioterapia com placa",
+ r:"Card rápido de temperatura e tempo, com a orientação de reavaliar o tecido durante o procedimento.",
+ p:["−6 °C a −8 °C","5–10 min","reavaliar aos 10 min"],
+ s:["Temperatura controlada entre −6 °C e −8 °C.","Tempo de aplicação de 5 a 10 minutos.","Ajustar o tempo conforme a avaliação da área.","Após 10 minutos, avaliar o tecido durante o procedimento."],
+ k:"Referência",fl:[{t:"ParametrosTecnicosCrio.jpg",id:"1wVI0U01Fj2Bx_IviFrPgo4ys0DwFfQLx"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Celulite em glúteo e coxa",tech:"Criolipólise dinâmica — aplicador em movimento",
+ r:"Frio a −5 °C para modular inflamação e densidade tecidual, sem congelar o adipócito.",
+ p:["−5 °C","20 min / região","1×/semana · 6–10 sessões"],
+ s:["Higienizar, avaliar o grau de celulite e a sensibilidade ao frio.","Aplicar camada fina de gel anticongelante e dividir a área entre glúteo e coxa.","Temperatura alvo −5 °C em modo dinâmico, 20 minutos por região.","Movimentação contínua, nunca estacionária; o frio deve ser tolerável, sem dor ou queimação.","Finalizar com 1–2 min de dinâmica leve. 1×/semana, 6 a 10 sessões, manutenção mensal."],
+ fl:[{t:"ProtocoloCrioDinamica.jpg",id:"1Im_nXF33AMPg-Z52sW3hs-PBnimPvrw_"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Crio dinâmica — Artix",tech:"Artix (KLD) — aplicador Placa G",
+ r:"Protocolo fechado de crio dinâmica com Artix, incluindo intervalo entre sessões e ticket sugerido.",
+ p:["−8 °C","20 min","intervalo 15–21 dias","R$ 250–450 / sessão"],
+ s:["Artix (KLD) com aplicador Placa G em modo crio dinâmica.","Temperatura −8 °C, tempo de 20 minutos.","Aplicar gel anticongelante de forma uniforme antes da sessão.","Movimentar a placa lentamente, com pressão firme e vaivém constante.","Intervalo de 15 a 21 dias entre sessões; ticket sugerido de R$ 250 a R$ 450."],
+ k:"Isca",fl:[{t:"IscaArtix.jpg",id:"1JuDfRGY9C8G_O2ae6VYSJR4EVyOtT-3k"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Equipamentos com crio dinâmica",tech:"Artix · Criodermis 2.0 · Polarys Plaxx · CrioSculpt",
+ r:"Quem no portfólio tem função dinâmica e qual o diferencial de cada um.",
+ p:["4 equipamentos","papada, abdômen inferior, flancos"],
+ s:["Artix (KLD): placas com modo dinâmico para áreas difíceis e contornos.","Criodermis 2.0 (Medical San): placas flexíveis, resfriamento uniforme e conforto.","Polarys Plaxx (Ibramed): crio combinada a correntes eletroestimuladoras, modo DUET.","CrioSculpt (HTM): crio dinâmica inteligente, protocolos automáticos e app HTM Match.","Dica de aplicação: movimentar a placa no trajeto do músculo e da gordura — ideal para papada, abdômen inferior e flancos."],
+ k:"Referência",fl:[{t:"CrioDinamica.jpg",id:"1CgTixNm5kdxEn6Z5BJnvgijNWvC7fEez"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Gordura infraglútea (bananinha)",tech:"Polarys Plaxx — crio de placas + corrente Aussie, modo Duet",
+ r:"Frio e contração muscular no mesmo aplicador: contorno infraglúteo com tônus.",
+ p:["−8 °C","45–60 min","Aussie 1.000 Hz","2–4 s contração / 2–4 s repouso"],
+ s:["Avaliar a espessura da gordura infraglútea e a flacidez associada; marcar a área com a cliente em pé.","Higienizar, posicionar em decúbito ventral e aplicar membrana anticongelante.","Criolipólise em modo convencional de placas, −8 °C, 45 a 60 min conforme adipometria.","Eletroestimulação em modo Duet, corrente Aussie a 1.000 Hz, intermitente, 2–4 s de contração por 2–4 s de repouso.","Intensidade até contração confortável, mantida durante toda a sessão de crio."],
+ fl:[{t:"ProtocoloBananinha.jpg",id:"12e8C00KdxpAuvs62erZLr482mkLZ-uxx"}]},
+
+{a:"corporal",f:"crio",g:"Criolipólise",t:"Escolha de área e rentabilidade",tech:"Criolipólise — estratégia clínica e comercial",
+ r:"Onde a crio entrega mais resultado visível e como transformar isso em pacote.",
+ p:["abdômen · flancos · dorso · infraglútea"],
+ s:["Priorizar áreas de maior aderência: abdômen, flancos, dorso do sutiã e infraglútea.","Escolher gordura bem delimitada, com boa resposta metabólica e alto impacto visual.","Respeitar o tempo biológico: resfriamento insuficiente entrega pouco; excesso gera risco.","Manter acompanhamento pós-procedimento com sessões periódicas.","Vender harmonização corporal personalizada, não apenas tratamento por região."],
+ k:"Isca",fl:[{t:"IscaLucrandoCrio.jpg",id:"1Dn5a6oLw7sPGUgECmikKI9IVvWLmetHb"}]},
+
+{a:"corporal",f:"termica",g:"Tecarterapia e radiofrequência",t:"Flacidez tecidual",tech:"Neartek — RF capacitiva e resistiva",
+ r:"Aquecimento profundo alternando capacitivo e resistivo conforme a fibrose do tecido.",
+ p:["10–15 min","capacitivo → resistivo","1–2×/semana","pacote de 6"],
+ s:["Etapa 1 em modo capacitivo, para os tecidos mais superficiais.","Alternar com modo resistivo nas áreas mais fibrosas.","Intensidade confortável ao paciente, com calor progressivo.","10 a 15 minutos por área, movimento contínuo, lento e uniforme.","Finalizar com drenagem linfática e ativos firmadores (DMAE). 1 a 2×/semana, pacote de 6 sessões."],
+ fl:[{t:"PROTOCOLO_FLACIDEZ_NEARTEK.jpg",id:"1STPAE89G5NqQzSn7qXl2QqQkTZSHQImW"}]},
+
+{a:"corporal",f:"termica",g:"Tecarterapia e radiofrequência",t:"Contorno e projeção de glúteos",tech:"Dermotonus Esthetic — RF + vácuo (endermologia)",
+ r:"Duas temperaturas-alvo conforme o tecido: mais quente para flacidez, mais frio para edema e fibrose.",
+ p:["40–42 °C flacidez","38–39 °C edema/fibrose","até −300 mmHg","15–20 min · 6 sessões"],
+ s:["Assepsia com clorexidina 0,2% ou álcool 70% e gel glicerinado.","RF combinada a vácuo com aplicador corporal, em movimentos contínuos, sem parar sobre a área.","Temperatura de 40–42 °C para flacidez ou 38–39 °C em tecido edemaciado e fibrótico.","Sucção até −300 mmHg, ajustada à espessura e à sensibilidade do tecido.","15 a 20 min por região, 1×/semana, ciclo de 6 sessões com registro fotográfico."],
+ fl:[{t:"PROTOCOLO_CONTORNO_GLUTEOS.jpg",id:"1fnC2VrOpSBsR_oWw3BCQmCc3OpZ8PP0W"}]},
+
+{a:"corporal",f:"termica",g:"Tecarterapia e radiofrequência",t:"Indicações do Cryo Tecar",tech:"Cryo Tecar (Ibramed) — tecarterapia com criofrequência",
+ r:"O que o Cryo Tecar atende, de celulite a rejuvenescimento vulvovaginal.",
+ p:["celulite","flacidez","gordura localizada","rejuvenescimento"],
+ s:["Celulite.","Flacidez cutânea.","Gordura localizada.","Rejuvenescimento facial.","Rejuvenescimento vulvovaginal."],
+ k:"Referência",fl:[{t:"TratamentosCryotecar.jpg",id:"1ZOHCbYuTqqeY4BAxJZ0EtE1IuYA8cm4T"}]},
+
+{a:"corporal",f:"mec",g:"Endermoterapia e vácuo",t:"Contorno e volume de glúteos",tech:"Beauty Dermo Maxx — endermoterapia + Pump Up",
+ r:"Endermoterapia para o contorno, Pump Up para o volume — na mesma sessão.",
+ p:["30–40 min total","15–20 min endermo","5–8 min Pump Up / glúteo","1–2×/semana"],
+ s:["Sessões de 1 a 2× por semana, com tempo total de 30 a 40 minutos.","Endermoterapia por 15–20 min nos dois glúteos, vácuo leve a moderado, movimentos ascendentes de fora para dentro.","Foco na linha infraglútea e na lateral do glúteo para realçar o contorno.","Pump Up com ventosa específica, 5 a 8 min por glúteo, vácuo moderado e sucção firme.","Finalização opcional com drenagem manual leve, cosmético firmador e orientação de hidratação."],
+ fl:[{t:"ProtocoloGluteoBeautyDermoMaxx.jpeg",id:"1UP-2_ZlCWfwDMga_sor536_HMJjV1LP-"}]},
+
+{a:"corporal",f:"mec",g:"Endermoterapia e vácuo",t:"Drenagem linfática mecânica",tech:"Modellata — vacuoterapia em duas etapas",
+ r:"Desobstruir o gânglio antes de drenar: a ordem que faz o protocolo funcionar.",
+ p:["10 CPS gânglios · 1 min","15 CPS drenagem","2–3×/semana"],
+ s:["Passo 1: programação de desobstrução ganglionar, modo contínuo, ponteira ponto central.","Aplicação estática sobre os gânglios linfáticos a 10 CPS por 1 minuto.","Passo 2: programação de drenagem linfática, modo contínuo, ponteira côncava.","Aplicar creme Modellata a 15 CPS com movimentos lentos no sentido do sistema linfático.","Frequência de 2 a 3 vezes por semana — protocolo recorrente e fidelizador."],
+ fl:[{t:"ProtocoloDrenagemModellata.jpg",id:"17BSej_f0wfI4sjSfLyoJWFiBMrOq3QyC"}]},
+
+{a:"corporal",f:"mec",g:"Endermoterapia e vácuo",t:"Massagem modeladora localizada",tech:"Ponteiras côncava e multipontas + eletroestimulação",
+ r:"Massagem mecânica com ponteiras e uma lista de exercícios para sincronizar com a corrente.",
+ p:["~30 min / região","6–10 repetições por ciclo"],
+ s:["Higienizar, posicionar em decúbito ventral e aplicar creme neutro ou Modellata em camada fina.","Liberação dos gânglios linfáticos, manual ou com ponteira côncava.","Drenagem local com ponteira côncava para favorecer o retorno venoso.","Ponteira multipontas em toda a região, em ritmo constante, cerca de 30 min por região.","Exercícios de glúteos, abdômen, pernas e braços durante a contração da corrente — 6 a 10 repetições por ciclo."],
+ fl:[{t:"ProtocoloMassagem.jpg",id:"10qlCMSjhXhage5z7vLofnHgaY9dosdpV"}]},
+
+{a:"corporal",f:"mec",g:"Ondas de choque",t:"Celulite, fibrose e flacidez",tech:"Thork (Ibramed) — ondas de choque radiais",
+ r:"Disparos radiais para celulite grau I a III, fibrose pós-lipo e retenção hídrica.",
+ p:["~2.000 disparos / área","1–2×/semana","ponteiras intercambiáveis"],
+ s:["1 a 2 sessões semanais.","Cerca de 2.000 disparos por área tratada.","Adaptar a intensidade à sensibilidade do paciente.","Associar a ativos drenantes e massagem modeladora.","Usar ponteiras intercambiáveis conforme a profundidade desejada."],
+ k:"Isca",fl:[{t:"ThorkManyChat.jpg",id:"1T2wntCFhdIzs1FZHluZExk4Cptf6-hKO"}]},
+
+{a:"corporal",f:"luz",g:"Fotobiomodulação",t:"Lipedema — dor e inflamação",tech:"Antares — fotobiomodulação vermelha e infravermelha",
+ r:"Vermelho para reparo e microcirculação; infravermelho para o tecido adiposo profundo.",
+ p:["630–670 nm","800–940 nm","~85 J sistêmico","10–30 min · 2–3×/semana"],
+ s:["Luz vermelha de 630 a 670 nm: reparo tecidual, microcirculação e colágeno.","Infravermelho próximo de 800 a 940 nm: tecido adiposo profundo, ação anti-inflamatória, analgésica e linfática.","Modo contínuo, LED de baixa intensidade, cerca de 85 J na aplicação sistêmica.","10 a 30 minutos por sessão, 2 a 3 vezes por semana.","Aplicar sobre coxas, joelhos e panturrilhas; tratamento de longo prazo, mínimo de 3 meses."],
+ fl:[{t:"ANTARES_LIPEDEMA.jpg",id:"10s1nWLG9k7BHMSSTiUZW72mqxOqJh7E8"}]},
+
+{a:"corporal",f:"luz",g:"Fotobiomodulação",t:"Lipedema — laser vermelho de apoio",tech:"Antares — laser vermelho",
+ r:"Material educativo sobre lipedema com o protocolo de apoio em fotobiomodulação.",
+ p:["aplicação pontual","2–3×/semana","reavaliar em 8–10 sessões"],
+ s:["Explica o que é lipedema e a necessidade de abordagem multidisciplinar.","Benefícios do laser vermelho: modulação inflamatória, microcirculação, analgesia e reparo tecidual.","Aplicação pontual nas áreas de maior sensibilidade, com pontos distribuídos uniformemente.","Associar a drenagem linfática, terapia manual e exercícios.","2 a 3 sessões por semana, com reavaliação após 8 a 10 sessões."],
+ k:"Isca",fl:[{t:"ISCA_ANTARES.jpg",id:"1mck5qBwIEFsRuQSxBkvv7rTk5-QIA_ux"}]},
+
+{a:"corporal",f:"mec",g:"Microagulhamento",t:"Estrias",tech:"Smart Derma Pen — microagulhamento",
+ r:"Profundidade escolhida pela estria: fina ou profunda muda o parâmetro.",
+ p:["1,0–1,5 mm finas","1,5–2,5 mm profundas","velocidade 4–6","30–50 min"],
+ s:["Higienizar, fazer assepsia com clorexidina e aplicar anestésico tópico por 30 min (opcional).","Velocidade de 4 a 6, cartucho de 12 ou 36 agulhas.","Profundidade de 1,0 a 1,5 mm em estrias finas; 1,5 a 2,5 mm em estrias profundas.","Movimentos cruzados — horizontal, vertical e diagonal — até leve eritema. Sessão de 30 a 50 min.","Ativos: fatores de crescimento, vitamina C, ácido hialurônico e silício orgânico. Pós com FPS e sem ácidos por 5 dias."],
+ fl:[{t:"ProtocoloEstriasDermaPen.jpg",id:"1WOrEXY-OTHu4m8N5qUl0oA-4xfHGD1OI"}]},
+
+{a:"corporal",f:"mec",g:"Microagulhamento",t:"Flacidez abdominal",tech:"Smart Pen — microagulhamento + drug delivery",
+ r:"Movimento de lifting ascendente e ativos escolhidos para sustentação tecidual.",
+ p:["1,0–1,5 mm leve","1,5–2,0 mm moderada","velocidade 4–6"],
+ s:["Higienizar o abdômen, fazer antissepsia com clorexidina e anestésico tópico por 30 min (opcional).","Profundidade de 1,0 a 1,5 mm em flacidez leve; 1,5 a 2,0 mm em flacidez moderada.","Velocidade média a alta (4 a 6), cartucho de 12 ou 36 agulhas.","Movimentos de lifting ascendentes até leve eritema ou pontilhado, sem sobreposição excessiva.","Ativos: silício orgânico, ácido hialurônico corporal e DMAE. Finalizar com máscara calmante, fotobiomodulação opcional e protetor solar."],
+ fl:[{t:"MICROAGULHAMENTO.jpg",id:"1QKrNYWJGzD3cDJ3RiikHeZhMQGSdDbp5"}]},
+
+{a:"corporal",f:"mec",g:"Peeling de diamante",t:"Estrias — renovação e permeação",tech:"Dermotonus Esthetic — peeling de diamante",
+ r:"Lixar para abrir caminho: a permeação vem logo depois, com a pele receptiva.",
+ p:["pressão moderada","movimentos lineares e cruzados","FPS 60 obrigatório"],
+ s:["Higienizar a pele com sabonete suave ou específico para área corporal.","Peeling de diamante com pressão moderada, em movimentos lineares e cruzados, até hiperemia.","Permear os ativos no pós-peeling, quando a pele está mais receptiva.","Ativos: ácido hialurônico, fatores de crescimento, silício orgânico, vitamina C e D-pantenol.","Finalizar com máscara calmante ou regeneradora e fotoproteção FPS 60."],
+ fl:[{t:"ProtocoloEstriasPeeling.jpeg",id:"1ta7zI9akqdjXxBZ2ziLLTU9Y57SZG2la"},{t:"ESTRIAS_PEELING_DIAMANTE.jpg",id:"1B6rZwKNF6ugGnO-XpR1NFPNPVQZ0mb1n"}]},
+
+{a:"corporal",f:"luz",g:"Laser",t:"Remoção de tatuagem",tech:"Ômer — Q-Switched Nd:YAG 1064 nm",
+ r:"Parâmetros por fototipo mais a tabela de precificação por tamanho de tatuagem.",
+ p:["1064 nm","100–300 mJ","3–5 Hz","R$ 300–800 / sessão"],
+ s:["Indicado para tatuagem escura, fototipos I a V, com ponteira de 1064 nm.","Energia de 100 a 300 mJ, frequência de 3 a 5 Hz.","Aplicação em varredura ou pontual.","Caso demonstrado: 3 sessões a 100 J, 1064 nm, 2 Hz.","Precificação: sessão avulsa de R$ 300 (pequena) a R$ 800 (costa inteira), com valores menores no pacote."],
+ fl:[{t:"ProtocoloOmerTatuagem.jpg",id:"1hvp2nH5fQ9ZV9zXauFF9cHTkJsl8_Q_F"}]},
+
+{a:"corporal",f:"luz",g:"Laser",t:"Epilação — posicionamento do aplicador",tech:"Ácrus (HTM) — laser de diodo, app HTM Match",
+ r:"O ângulo certo do aplicador e as adaptações ergonômicas para região de biquíni e íntima.",
+ p:["aplicador a 90°","gel neutro incolor","manípulo 180° na íntima baixa"],
+ s:["Verificar a integridade da pele na região a ser tratada.","Espalhar camada de gel neutro incolor sobre a pele.","Acoplar o aplicador sempre a 90°.","Biquíni e púbis: manter o braço em posição neutra.","Região íntima inferior: girar o manípulo 180° e usar espátula descartável para proteção."],
+ fl:[{t:"AplicacaoAcrus.jpg",id:"1RJ0FmaFCvIpn2wf7QTMmJZUObs8x6n9k"}]},
+
+{a:"corporal",f:"luz",g:"Laser",t:"Epilação a laser por área",tech:"Ácrus HTM — laser multi comprimento de onda",
+ r:"Intervalo de sessão área por área, com a lógica comercial de pacote em vez de avulso.",
+ p:["face 21–30 d","axilas 30–45 d","virilha 30–45 d","pernas 45–60 d"],
+ s:["Face (buço, mentoniano, lateral): intervalo de 21 a 30 dias, associar fotobiomodulação.","Axilas: 30 a 45 dias — resposta rápida, porta de entrada para novos clientes.","Virilha simples ou completa: 30 a 45 dias, com controle de foliculite; vender pacote fechado.","Pernas: 45 a 60 dias. Braços: 30 a 45 dias, em combo com axilas.","Avaliar fototipo, iniciar com parâmetros seguros, respeitar a fase anágena e evitar sol."],
+ k:"Isca",fl:[{t:"EPILAÇÃO_A_LASER.jpg",id:"1GUpCfb1Eq3HocCUIAlhwAgja2knxCxom"}]},
+
+{a:"corporal",f:"mec",g:"Protocolos combinados",t:"Lipedema — protocolo em 3 etapas",tech:"Thork + Dermotonus + Pressury (Ibramed)",
+ r:"Ondas de choque, depois massagem mecânica, depois pressoterapia — nesta ordem.",
+ p:["2.000–3.000 disparos","12–15 min massagem","20–30 min pressoterapia","2×/semana · 8–12 sessões"],
+ s:["Avaliação de dor, fibrose e edema, hidratação e fotos padronizadas.","Thork: 2.000 a 3.000 disparos por área, 10–12 min, intensidade moderada, movimentos lineares.","Dermotonus: 12 a 15 min, movimentos ascendentes distal → proximal, foco em coxa, quadril e joelhos.","Pressury: 20 a 30 min em modo linfático, baixa a média pressão, pés → pernas → coxas → quadril.","2 sessões por semana, 8 a 12 sessões por ciclo, com reavaliação."],
+ fl:[{t:"ProtocoloLipedema.jpg",id:"1VlhabxTwQqQpCYWuXTlfWURoguyhP6eY"}]},
+
+{a:"corporal",f:"mec",g:"Protocolos combinados",t:"Lipedema — qual tecnologia em cada fase",tech:"Massagem · pressoterapia · fotobiomodulação · ondas de choque · crio",
+ r:"Mapa de decisão por fase da doença — fase 1, 2 ou 3.",
+ p:["fases 1, 2 e 3"],
+ s:["Massagem mecânica — fases 1, 2 e 3: nódulos, irregularidades e tensão tecidual.","Pressoterapia — todas as fases: drenagem linfática, edema e retorno venoso.","Fotobiomodulação — todas as fases: modulação inflamatória e alívio da dor.","Ondas de choque radiais — fases 2 e 3: fibrose, aderências e dor profunda.","Criolipólise de placas com eletroestimulação — fases 1 e 2: hipersensibilidade e inflamação localizada."],
+ k:"Isca",fl:[{t:"LIPEDEMA.jpg",id:"1XjpQNEgLIyVp-ur0J-ICj1e9HrZrlR9l"}]},
+
+{a:"corporal",f:"mec",g:"Protocolos combinados",t:"Exercícios hipopressivos",tech:"Cinesioterapia — sem equipamento",
+ r:"Vídeo demonstrativo para core e assoalho pélvico, usado como complemento dos protocolos corporais.",
+ p:["vídeo · 2,4 MB"],
+ s:["Vídeo demonstrativo de exercícios hipopressivos.","Complementa protocolos de flacidez abdominal e diástase.","Trabalha core, assoalho pélvico e pressão intra-abdominal."],
+ k:"Vídeo",fl:[{t:"Exercícios hipopressivos.mp4",id:"1miUBFWc6SH1l87L3UlacceCjgOYKA_PK"}]},
+
+/* ===== ÍNTIMO ===== */
+{a:"intimo",f:"luz",g:"Laser intracavitário",t:"Flacidez vulvovaginal e ressecamento",tech:"Endolaser / Endolight (HTM) — diodo 1470 nm, fibra 360°",
+ r:"Retirada lenta e uniforme da fibra é o que define a homogeneidade do tratamento.",
+ p:["1470 nm","8–10 W contínuo","retirada 2–3 cm","3 sessões / 30–40 dias"],
+ s:["Laser de diodo 1470 nm com fibra endocavitária 360°.","Potência média de 8 a 10 W, em modo contínuo.","Aplicação intracavitária com retirada lenta e uniforme da fibra, de 2 a 3 cm por vez.","3 sessões com intervalo de 30 a 40 dias.","Endpoint: leve eritema ou hiperemia interna. Usar óculos de proteção e gel estéril."],
+ k:"Campanha",fl:[{t:"EndolaserOutubroRosa.jpg",id:"1rfhYWV-v79HxMmWe3941wG6tXB97X-Dc"}]},
+
+{a:"intimo",f:"luz",g:"Laser Q-Switched",t:"Clareamento íntimo e perianal",tech:"Ômer Smart — Nd:YAG 1064 nm",
+ r:"Hipercromias íntimas, discromias pós-inflamatórias e manchas por atrito.",
+ p:["1064 nm","spot 3–5 mm","14–18 J/cm²","2–5 Hz","3–5 sessões / 30 dias"],
+ s:["Laser Nd:YAG 1064 nm com spot de 3 a 5 mm.","Fluência de 14 a 18 J/cm², frequência de 2 a 5 Hz.","2 a 3 passes por região, sem sobreposição direta.","3 a 5 sessões com intervalo de 30 dias.","Teste em área pequena na primeira sessão e fotoproteção local no pós."],
+ k:"Campanha",fl:[{t:"OmerOutubroRosa.jpg",id:"1tG5SUf5l2nn55H38cjOIMGSVmGsIbdCt"}]},
+
+{a:"intimo",f:"mec",g:"Radiofrequência microagulhada",t:"Rejuvenescimento íntimo",tech:"Needle RF — RF microagulhada, aplicação íntima",
+ r:"Aplicação íntima do Needle RF — exige treinamento específico do fabricante.",
+ p:["1,0–2,0 mm","80–120 W","treinamento obrigatório"],
+ s:["Profundidade de 1,0 a 2,0 mm, sempre com treinamento específico para a região.","Potência de 80 a 120 W, iniciando na faixa mais baixa.","Velocidade 0,3–0,5 e sucção ajustada ao conforto.","2 a 3 passes por região, sem sobreposição direta.","3 a 4 sessões com intervalo de 30 a 45 dias."],
+ fl:[{t:"NeedleRF_Intimo.jpg",id:"1ptmD8sEQPa8ExYE_T9M6xsjKa4vu2U_j"}]},
+
+/* ===== CAPILAR ===== */
+{a:"capilar",f:"mec",g:"Microagulhamento",t:"Estímulo capilar masculino",tech:"Smart Pen II — liberação automática de ativo",
+ r:"Couro cabeludo dividido em quadrantes, ativo aplicado ao final da sessão.",
+ p:["0,5–1,0 mm","cartucho 36 agulhas","4–8 sessões / 15–30 dias"],
+ s:["Anamnese, análise do couro cabeludo e registro fotográfico.","Higienizar com clorexidina e secar completamente.","Dividir o couro cabeludo em quadrantes e ajustar a Smart Pen II.","Profundidade de 0,5 a 1,0 mm, cartucho de 36 agulhas, movimentos horizontais, verticais e diagonais até hiperemia.","Aplicar o ativo capilar ao final. Sessões a cada 15 a 30 dias, total de 4 a 8."],
+ fl:[{t:"Protocolo_Microagulhamento_Capilar.jpg",id:"15fXA3II8ZfX90F0ws5w5SEoFqNZKQSY5"}]},
+
+/* ===== APOIO ===== */
+{a:"apoio",f:"luz",g:"Tabelas de referência",t:"Cores do LED e suas funções",tech:"Fototerapia por LED — vermelho, azul, verde, âmbar, violeta",
+ r:"Tabela de consulta rápida para escolher a cor certa na cabine.",
+ p:["5 cores","indicação por cor"],
+ s:["Vermelha: metabolismo celular, colágeno, cicatrização e crescimento folicular.","Azul: bactericida, reduz oleosidade e inflamação — acne e pós-limpeza.","Verde: circulação linfática e clareamento de manchas — rosácea.","Âmbar: colágeno e elastina, anti-inflamatório — peles maduras e pós-peeling.","Violeta: imunidade, psoríase e suporte à vitamina D."],
+ k:"Referência",fl:[{t:"CoresLED.jpeg",id:"1B7Ngu0WD-QRl6hQsOLX4rmYjA4QGbrST"}]},
+
+{a:"apoio",f:"mec",g:"Tabelas de referência",t:"Correntes elétricas do portfólio",tech:"Stimulus Physio Maxx · Híbrid · Stimulus Face · Neurodyn Esthetic",
+ r:"Quais equipamentos entregam microcorrente, russa, Aussie e polarizada.",
+ p:["microcorrente","russa","Aussie","polarizada"],
+ s:["Stimulus Physio Maxx (HTM): reabilitação, fortalecimento e analgesia com 9 formas de onda.","Híbrid (HTM): ultrassom combinado a correntes terapêuticas, com protocolos automáticos.","Neurodyn Esthetic (Ibramed): microcorrente, russa e Aussie para face e corpo.","Stimulus Face (HTM): microcorrentes e corrente polarizada para estética facial.","Dica: lifting facial não invasivo com microcorrente e ponteiras condutivas no trajeto muscular."],
+ k:"Referência",fl:[{t:"CorrentesEletricas.jpg",id:"1KM1dV8LY7_bZNYsazmcFE2YmCuQWBzjb"}]},
+
+{a:"apoio",f:"luz",g:"Tabelas de referência",t:"Equipamentos micro e macrofocados",tech:"Hi-Focus · Ultrafocus · Ultramed 9D · Sonofocus · Visage",
+ r:"Quem no portfólio trabalha com ultrassom focado, num quadro só.",
+ p:["5 equipamentos","HIFU micro e macro"],
+ s:["Hi-Focus (HTM).","Ultrafocus (HTM).","Ultramed 9D (Medical San).","Sonofocus (Ibramed).","Visage (Ibramed)."],
+ k:"Referência",fl:[{t:"EquipamentosMicroMacro.jpg",id:"1pG9mNFTt_zBUpSJaLFH2w2uo_5IcchEG"}]}
+];
+
+/* ---------- catálogo ----------
+   A semente acima é o conteúdo embutido na página. No site, o protocolos.json do
+   repositório (gravado pela área restrita) substitui a semente.
+   Fora do site (preview), a semente é o que aparece — a página nunca fica vazia. */
+var AREA = AREA_PADRAO.slice();
+var P = SEMENTE;
+var atualizadoEm = null;
+
+/* ---------- estado ---------- */
+var area = AREA[0].k, fams = [], q = "";
+function $(s){ return document.querySelector(s); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+function montar(){
+  var nArquivos = P.reduce(function(n,x){ return n + (x.fl ? x.fl.length : 0); }, 0);
+  var nTec = P.map(function(p){ return p.g; })
+              .filter(function(v,i,a){ return v && a.indexOf(v) === i; }).length;
+  var comProto = AREA.filter(function(a){
+    return a.k !== "apoio" && P.some(function(p){ return p.a === a.k; }); }).length;
+
+  $("#numeros").innerHTML = [
+    [nArquivos,"arquivos catalogados"],[P.length,"protocolos"],
+    [nTec,"tecnologias"],[comProto,"áreas de tratamento"]
+  ].map(function(x){ return '<div class="numero"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; }).join("");
+
+  $("#benef-arquivos").textContent = nArquivos +
+    " arquivos: protocolos, tabelas de parâmetros e materiais de campanha.";
+
+  $("#rodapeFim").innerHTML = "Fonte: pasta PROTOCOLOS no Google Drive · " + nArquivos +
+    " arquivos · " + P.length + " protocolos · " + nTec + " tecnologias" +
+    (atualizadoEm ? " · atualizado em " + atualizadoEm : "") +
+    ".<br>Grupo DM — equipamentos e tecnologias para estética, saúde, fisioterapia, reabilitação e odontologia.";
+
+  if(!AREA.some(function(a){ return a.k === area; })) area = AREA[0].k;
+  $("#areas").innerHTML = AREA.map(function(a){
+    var n = P.filter(function(p){ return p.a === a.k; }).length;
+    return '<button class="aba" data-area="'+esc(a.k)+'" aria-pressed="'+(a.k===area)+'">' +
+      esc(a.n) + ' <i>' + n + '</i></button>';
+  }).join("");
+}
+
+$("#marcadores").innerHTML = [
+  ["−8 °C","criolipólise"],["40–42 °C","radiofrequência"],["1064 nm","Nd:YAG"],
+  ["1470 nm","endolaser"],["0,5–2,5 mm","microagulhamento"]
+].map(function(x){ return '<li class="marcador"><b>'+x[0]+'</b> '+x[1]+'</li>'; }).join("");
+
+$("#familias").innerHTML = Object.keys(FAM).map(function(k){
+  return '<button class="aba aba--fam" data-fam="'+k+'" aria-pressed="false">'+nomeFam(k)+'</button>';
+}).join("");
+
+/* Busca o catálogo publicado (protocolos.json, ao lado do index.html no repositório).
+   Se não achar (preview, arquivo aberto local), segue com a semente embutida. */
+function carregar(){
+  fetch(CONFIG.github.arquivo + "?v=" + Date.now(), { cache:"no-store", headers:{ accept:"application/json" } })
+    .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(cat){
+      $("#areaRestrita").hidden = false;
+      if(!Array.isArray(cat.secoes) || !cat.secoes.length || !Array.isArray(cat.protocolos) || !cat.protocolos.length) return;
+      AREA = cat.secoes;
+      P = cat.protocolos;
+      if(cat.atualizadoEm){
+        atualizadoEm = new Date(cat.atualizadoEm).toLocaleDateString("pt-BR",
+          { day:"2-digit", month:"long", year:"numeric" });
+      }
+      montar();
+      desenhar();
+    })
+    .catch(function(){ /* sem protocolos.json: a semente já está na tela */ });
+}
+
+$("#areas").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if(!b) return;
+  area = b.dataset.area;
+  Array.prototype.forEach.call($("#areas").children, function(x){ x.setAttribute("aria-pressed", x===b); });
+  track("biblioteca_filtro_area", { area: area });
+  desenhar();
+});
+$("#familias").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if(!b) return;
+  var k = b.dataset.fam, i = fams.indexOf(k);
+  if(i > -1){ fams.splice(i,1); b.setAttribute("aria-pressed","false"); }
+  else { fams.push(k); b.setAttribute("aria-pressed","true"); }
+  track("biblioteca_filtro_tecnologia", { familias: fams.join(",") });
+  desenhar();
+});
+var tBusca;
+$("#q").addEventListener("input", function(e){
+  q = e.target.value.toLowerCase().trim();
+  desenhar();
+  clearTimeout(tBusca);
+  tBusca = setTimeout(function(){ if(q) track("biblioteca_busca", { termo: q }); }, 900);
+});
+
+/* ---------- desenho ---------- */
+function desenhar(){
+  var achados = P.filter(function(p){
+    if(p.a !== area) return false;
+    if(fams.length && fams.indexOf(p.f) === -1) return false;
+    if(q){
+      var t = [p.t,p.tech,p.g,p.r,(p.p||[]).join(" "),(p.s||[]).join(" ")].join(" ").toLowerCase();
+      if(t.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+
+  var secao = AREA.filter(function(a){ return a.k===area; })[0];
+  var nomeArea = secao ? secao.n : "";
+  $("#resumo").innerHTML = "<b>" + achados.length + "</b> " +
+    (achados.length === 1 ? "protocolo" : "protocolos") + " em " + nomeArea +
+    (fams.length ? " · " + fams.map(function(k){ return nomeFam(k); }).join(", ") : "") +
+    (q ? ' · busca "' + esc(q) + '"' : "");
+
+  if(!achados.length){
+    var semFiltro = !q && !fams.length;
+    $("#resultados").innerHTML = '<div class="vazio"><h3>' +
+      (semFiltro ? "Seção ainda sem protocolos." : "Nada por aqui ainda.") + '</h3>' +
+      '<p class="lead" style="margin-inline:auto">' +
+      (semFiltro ? "Os protocolos desta seção entram pelo painel da equipe."
+                 : "Ajuste a busca ou remova um filtro de tecnologia.") + '</p></div>';
+    return;
+  }
+
+  var grupos = [];
+  achados.forEach(function(p){
+    var g = grupos.filter(function(x){ return x.nome === p.g; })[0];
+    if(!g){ g = { nome:p.g, fam:p.f, itens:[] }; grupos.push(g); }
+    g.itens.push(p);
+  });
+
+  $("#resultados").innerHTML = grupos.map(function(g,gi){
+    return '<section class="grupo">' +
+      '<div class="grupo__topo">' + icone(g.fam, gi % 2 ? "card__ic--laranja" : "") +
+        '<h3>' + esc(g.nome) + '</h3>' +
+        '<span class="qtd">' + g.itens.length + (g.itens.length === 1 ? " protocolo" : " protocolos") + '</span>' +
+      '</div><div class="grade">' + g.itens.map(cartao).join("") + '</div></section>';
+  }).join("");
+
+  observar();
+}
+
+function cartao(p){
+  var i = P.indexOf(p);
+  return '<article class="card reveal">' +
+    '<button class="arte" data-amp="'+i+'" aria-label="Ampliar a arte do protocolo '+esc(p.t)+'">' +
+      '<img loading="lazy" src="'+thumb(p.fl[0].id,900)+'" alt="Arte do protocolo: '+esc(p.t)+' — '+esc(p.tech)+'" ' +
+      'onerror="this.closest(\'.card\').classList.add(\'semimg\');document.body.classList.add(\'semimg\')">' +
+      '<span class="arte__lupa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M20 20l-3.5-3.5"/></svg></span>' +
+    '</button>' +
+    '<div class="card__corpo">' +
+      '<div class="card__cab"><span class="eyebrow">'+esc(nomeFam(p.f))+'</span>' +
+        (p.k ? '<span class="selo">'+esc(p.k)+'</span>' : '') + '</div>' +
+      '<h3 class="t3">'+esc(p.t)+'</h3>' +
+      '<p class="card__tech">'+esc(p.tech)+'</p>' +
+      '<p class="card__resumo">'+esc(p.r)+'</p>' +
+      '<ul class="params">'+(p.p||[]).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' +
+      '<ol class="passos" id="passos'+i+'">'+(p.s||[]).map(function(s,n){
+        return '<li><b>'+("0"+(n+1)).slice(-2)+'</b><span>'+esc(s)+'</span></li>'; }).join("")+'</ol>' +
+    '</div>' +
+    '<div class="card__pe">' +
+      '<button data-passos="'+i+'" aria-expanded="false" aria-controls="passos'+i+'" data-evt="protocolo_passo_a_passo">' +
+        '<span>Passo a passo</span>' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+      '</button>' +
+      '<button data-amp="'+i+'" aria-label="Ver a arte original" data-evt="protocolo_ver_arte">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6M15 21h6v-6M3 3l7 7M21 21l-7-7"/></svg>' +
+      '</button>' +
+    '</div></article>';
+}
+
+document.addEventListener("click", function(e){
+  var pa = e.target.closest("[data-passos]");
+  if(pa){
+    var el = $("#passos" + pa.dataset.passos);
+    var aberto = el.classList.toggle("aberto");
+    pa.setAttribute("aria-expanded", aberto);
+    pa.querySelector("svg").classList.toggle("cima", aberto);
+    pa.querySelector("span").textContent = aberto ? "Recolher" : "Passo a passo";
+    return;
+  }
+  var am = e.target.closest("[data-amp]");
+  if(am) ampliar(+am.dataset.amp, 0);
+});
+
+/* ---------- ampliação da arte ---------- */
+var atual = -1;
+function ampliar(i, fi){
+  atual = i;
+  var p = P[i], arq = p.fl[fi];
+  $("#ampArte").style.display = "";
+  $("#amp").style.gridTemplateColumns = "";
+  $("#ampArte").innerHTML = '<img src="'+thumb(arq.id,1600)+'" alt="Arte original: '+esc(p.t)+'" ' +
+    'onerror="document.getElementById(\'amp\').style.gridTemplateColumns=\'1fr\';this.parentNode.style.display=\'none\'">';
+  $("#ampLado").innerHTML =
+    '<div class="amp__cab"><span class="eyebrow">'+esc(nomeFam(p.f))+' · '+esc(p.g)+'</span>' +
+      '<span class="amp__nav">' +
+        (p.fl.length > 1 ? p.fl.map(function(_,n){
+          return '<button data-arq="'+n+'" aria-pressed="'+(n===fi)+'" aria-label="Arquivo '+(n+1)+'">'+(n+1)+'</button>'; }).join("") : "") +
+        '<button id="ampX" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" width="15" height="15"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+      '</span></div>' +
+    '<h3 id="ampTitulo">'+esc(p.t)+'</h3>' +
+    '<p class="card__tech">'+esc(p.tech)+'</p>' +
+    '<ul class="params">'+(p.p||[]).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>' +
+    '<ol class="passos">'+(p.s||[]).map(function(s,n){
+      return '<li><b>'+("0"+(n+1)).slice(-2)+'</b><span>'+esc(s)+'</span></li>'; }).join("")+'</ol>' +
+    '<div class="amp__acoes">' +
+      '<button class="btn btn--laranja btn--caixa" id="ampPacote" data-evt="arte_receber_pacote">Receber o pacote</button>' +
+      '<a class="btn btn--linha" href="'+D+arq.id+'/view" target="_blank" rel="noopener" data-evt="arte_abrir_drive">Abrir no Drive</a>' +
+    '</div>' +
+    '<p class="mini" style="margin-top:12px">'+esc(arq.t)+'</p>';
+
+  $("#fundo").classList.add("ver");
+  document.body.style.overflow = "hidden";
+  $("#ampX").addEventListener("click", fechar);
+  $("#ampPacote").addEventListener("click", function(){
+    fechar(); $("#pacote").scrollIntoView({behavior:"smooth"});
+    setTimeout(function(){ var c = document.getElementById("fullname"); if(c) c.focus(); }, 700);
+  });
+  Array.prototype.forEach.call($("#ampLado").querySelectorAll("[data-arq]"), function(b){
+    b.addEventListener("click", function(){ ampliar(atual, +b.dataset.arq); });
+  });
+  $("#amp").scrollTop = 0;
+}
+function fechar(){ $("#fundo").classList.remove("ver"); document.body.style.overflow = ""; atual = -1; }
+$("#fundo").addEventListener("click", function(e){ if(e.target === $("#fundo")) fechar(); });
+document.addEventListener("keydown", function(e){
+  if(atual < 0) return;
+  if(e.key === "Escape") fechar();
+  if(e.key === "ArrowRight" && atual < P.length - 1) ampliar(atual + 1, 0);
+  if(e.key === "ArrowLeft"  && atual > 0)            ampliar(atual - 1, 0);
+});
+
+/* ---------- entrada ao rolar ---------- */
+var obs = null;
+if("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+  obs = new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("vis"); obs.unobserve(en.target); } });
+  }, { rootMargin:"0px 0px -8% 0px", threshold:.06 });
+}
+function observar(){
+  if(!obs){ document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("vis"); }); return; }
+  document.querySelectorAll(".reveal:not(.vis)").forEach(function(el){ obs.observe(el); });
+}
+
+/* ================= ÁREA RESTRITA =================
+   Mesmo arquivo, mesma URL: a página vira modo de edição depois do login.
+   Toda alteração já reflete na biblioteca embaixo; só o "Publicar" grava no servidor. */
+(function(){
+  var token = "", sha = null, admCat = null, secaoAtiva = null, sujo = false, admFiltro = "", tRecado;
+
+  function recado(txt){
+    $("#admRecado").textContent = txt;
+    clearTimeout(tRecado);
+    tRecado = setTimeout(function(){ $("#admRecado").textContent = ""; }, 3800);
+  }
+  function marcarSujo(){ sujo = true; $("#admPendente").classList.add("ver"); }
+
+  /* aceita o link inteiro do Drive ou só o ID */
+  function idDoDrive(v){
+    v = (v || "").trim();
+    var m = v.match(/\/d\/([A-Za-z0-9_-]{20,})/) || v.match(/[?&]id=([A-Za-z0-9_-]{20,})/);
+    if(m) return m[1];
+    return /^[A-Za-z0-9_-]{20,}$/.test(v) ? v : "";
+  }
+  function apelido(k){
+    return (k || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,32);
+  }
+  function chaveLivre(base){
+    var k = apelido(base) || "secao", n = 2;
+    var usadas = admCat.secoes.map(function(s){ return s.k; });
+    while(usadas.indexOf(k) > -1){ k = apelido(base) + "-" + n; n++; }
+    return k;
+  }
+
+  /* espelha o rascunho na biblioteca que está atrás do painel */
+  function espelhar(){
+    AREA = admCat.secoes; P = admCat.protocolos;
+    montar(); desenhar(); observar();
+  }
+
+  /* ---------- GitHub: onde o catálogo é gravado ---------- */
+  function repoAlvo(){
+    var g = CONFIG.github, dono = g.dono, repo = g.repo;
+    if(!dono || !repo){
+      var h = location.hostname;
+      if(/\.github\.io$/i.test(h)){
+        dono = h.split(".")[0];
+        var seg = location.pathname.split("/").filter(Boolean)[0];
+        repo = (seg && !/\.html?$/i.test(seg)) ? seg : h;
+      }
+    }
+    return (dono && repo) ? { dono:dono, repo:repo, branch:g.branch || "main", arquivo:g.arquivo || "protocolos.json" } : null;
+  }
+  function gh(caminho, opcoes){
+    var alvo = repoAlvo();
+    opcoes = opcoes || {};
+    opcoes.headers = Object.assign({
+      "Accept":"application/vnd.github+json",
+      "Authorization":"Bearer " + token,
+      "X-GitHub-Api-Version":"2022-11-28"
+    }, opcoes.headers || {});
+    return fetch("https://api.github.com/repos/" + alvo.dono + "/" + alvo.repo + caminho, opcoes)
+      .then(function(r){
+        return r.text().then(function(t){
+          var d = {}; try { d = t ? JSON.parse(t) : {}; } catch(e){}
+          return { ok:r.ok, status:r.status, d:d };
+        });
+      });
+  }
+  function paraBase64(txt){
+    var bytes = new TextEncoder().encode(txt), bin = "";
+    for(var i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    return btoa(bin);
+  }
+  function deBase64(b64){
+    var bin = atob((b64 || "").replace(/\s/g,"")), bytes = new Uint8Array(bin.length);
+    for(var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+  function erroGitHub(res, acao){
+    if(res.status === 401) return "Token inválido ou vencido. Gere outro no GitHub.";
+    if(res.status === 403) return "Este token não pode " + acao + ". Confira se ele tem Contents: Read and write neste repositório (e se a organização já aprovou o token).";
+    if(res.status === 404){
+      var a = repoAlvo();
+      return "O token não enxerga o repositório " + a.dono + "/" + a.repo + ". Confira se ele foi liberado para esse repositório.";
+    }
+    if(res.status === 409 || res.status === 422) return "Alguém publicou antes de você. Clique em Sair, entre de novo e refaça a alteração.";
+    return (res.d && res.d.message) ? "GitHub: " + res.d.message : "Não consegui falar com o GitHub.";
+  }
+
+  /* ---------- entrada ---------- */
+  $("#areaRestrita").addEventListener("click", function(){
+    if(token && admCat){ abrirPainel(); return; }
+    $("#admPorta").classList.add("ver");
+    document.body.style.overflow = "hidden";
+    setTimeout(function(){ $("#admSenha").focus(); }, 60);
+  });
+  $("#admVoltar").addEventListener("click", function(){
+    $("#admPorta").classList.remove("ver");
+    document.body.style.overflow = "";
+  });
+  $("#admSenha").addEventListener("input", function(){ $("#admCampoSenha").classList.remove("erro"); });
+
+  function falhaEntrada(msg){
+    var btn = $("#admBtnEntrar");
+    btn.disabled = false; btn.textContent = "ENTRAR";
+    $("#admCampoSenha").classList.add("erro");
+    $("#admMsgSenha").textContent = msg;
+  }
+
+  /* Valida o token lendo o protocolos.json direto do repositório (sempre a versão mais nova,
+     sem esperar o GitHub Pages atualizar). */
+  function entrar(v, silencioso){
+    var alvo = repoAlvo();
+    if(!alvo){
+      if(!silencioso) falhaEntrada("Não sei em qual repositório gravar. Preencha CONFIG.github (dono e repo) no index.html.");
+      return;
+    }
+    token = v;
+    var btn = $("#admBtnEntrar");
+    btn.disabled = true; btn.textContent = "ENTRANDO…";
+    gh("/contents/" + alvo.arquivo + "?ref=" + encodeURIComponent(alvo.branch))
+      .then(function(res){
+        if(res.status === 404 && !res.d.message){ res.d.message = "Not Found"; }
+        if(res.status === 404){
+          /* arquivo ainda não existe: confirma que o repositório é acessível */
+          return gh("").then(function(rep){
+            if(!rep.ok) throw rep;
+            sha = null;
+            admCat = { versao:0, secoes:AREA.map(function(s){ return {k:s.k,n:s.n}; }),
+                       protocolos: JSON.parse(JSON.stringify(P)) };
+            marcarSujo();
+            recado("O arquivo " + alvo.arquivo + " ainda não existe. Publique para criá-lo.");
+          });
+        }
+        if(!res.ok) throw res;
+        sha = res.d.sha;
+        var cat = JSON.parse(deBase64(res.d.content));
+        admCat = { versao:cat.versao || 0, secoes:cat.secoes || [], protocolos:cat.protocolos || [] };
+      })
+      .then(function(){
+        btn.disabled = false; btn.textContent = "ENTRAR";
+        try { sessionStorage.setItem("dm_token", v); } catch(e){}
+        $("#admSenha").value = "";
+        secaoAtiva = admCat.secoes[0] ? admCat.secoes[0].k : null;
+        abrirPainel();
+      })
+      .catch(function(res){
+        token = ""; admCat = null;
+        try { sessionStorage.removeItem("dm_token"); } catch(e){}
+        if(silencioso){ btn.disabled = false; btn.textContent = "ENTRAR"; return; }
+        falhaEntrada(res && res.status ? erroGitHub(res, "ler o repositório")
+          : "Não consegui ler o catálogo no GitHub. Verifique a conexão e tente de novo.");
+      });
+  }
+
+  $("#admEntrar").addEventListener("submit", function(e){
+    e.preventDefault();
+    var v = $("#admSenha").value.trim();
+    if(!v){ falhaEntrada("Cole o token do GitHub."); return; }
+    if(!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(v)){ falhaEntrada("Isso não parece um token do GitHub (começa com github_pat_)."); return; }
+    entrar(v);
+  });
+
+  function abrirPainel(){
+    $("#admPorta").classList.remove("ver");
+    $("#adm").classList.add("ver");
+    document.body.style.overflow = "hidden";
+    admDesenhar();
+  }
+  $("#admFechar").addEventListener("click", function(){
+    $("#adm").classList.remove("ver"); document.body.style.overflow = "";
+  });
+  $("#admSair").addEventListener("click", function(){
+    if(sujo && !confirm("Há alterações não publicadas. Sair mesmo assim?")) return;
+    sujo = false;
+    try { sessionStorage.removeItem("dm_token"); } catch(e){}
+    location.reload();
+  });
+  window.addEventListener("beforeunload", function(e){ if(sujo){ e.preventDefault(); e.returnValue = ""; } });
+
+  /* ---------- publicar: grava o protocolos.json no repositório ---------- */
+  function validarCatalogo(c){
+    if(!c.secoes.length) return "O catálogo precisa de ao menos uma seção.";
+    var chaves = c.secoes.map(function(s){ return s.k; });
+    for(var i = 0; i < c.protocolos.length; i++){
+      var p = c.protocolos[i];
+      if(!p.t || !String(p.t).trim()) return "Há um protocolo sem título.";
+      if(chaves.indexOf(p.a) < 0) return 'O protocolo "' + p.t + '" está numa seção que não existe.';
+    }
+    return "";
+  }
+  $("#admPublicar").addEventListener("click", function(){
+    var btn = this, alvo = repoAlvo();
+    var erro = validarCatalogo(admCat);
+    if(erro){ recado(erro); return; }
+    btn.disabled = true; btn.textContent = "PUBLICANDO…";
+    track("protocolos_publicar", { secoes: admCat.secoes.length, protocolos: admCat.protocolos.length });
+
+    var novo = {
+      versao: (admCat.versao || 0) + 1,
+      atualizadoEm: new Date().toISOString(),
+      secoes: admCat.secoes.map(function(s){ return { k:s.k, n:s.n }; }),
+      protocolos: admCat.protocolos
+    };
+    var corpo = {
+      message: "Protocolos: publicação v" + novo.versao + " pela área restrita",
+      content: paraBase64(JSON.stringify(novo, null, 1) + "\n"),
+      branch: alvo.branch
+    };
+    if(sha) corpo.sha = sha;
+
+    gh("/contents/" + alvo.arquivo, {
+      method:"PUT", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(corpo)
+    }).then(function(res){
+      btn.disabled = false; btn.textContent = "PUBLICAR";
+      if(!res.ok){ recado(erroGitHub(res, "publicar")); return; }
+      sha = res.d.content && res.d.content.sha;
+      admCat.versao = novo.versao;
+      atualizadoEm = new Date(novo.atualizadoEm).toLocaleDateString("pt-BR", { day:"2-digit", month:"long", year:"numeric" });
+      sujo = false; $("#admPendente").classList.remove("ver");
+      admDesenhar();
+      recado("Publicado no GitHub. O site atualiza para todo mundo em 1 a 2 minutos.");
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = "PUBLICAR";
+      recado("Sem resposta do GitHub ao publicar. Verifique a conexão e tente de novo.");
+    });
+  });
+
+  /* ---------- desenho ---------- */
+  function admDesenhar(){
+    var arquivos = admCat.protocolos.reduce(function(n,p){ return n + (p.fl ? p.fl.length : 0); }, 0);
+    $("#admResumo").textContent = admCat.protocolos.length + " protocolos · " + arquivos +
+      " arquivos · " + admCat.secoes.length + " seções";
+
+    $("#admListaSecoes").innerHTML = admCat.secoes.map(function(s,i){
+      var n = admCat.protocolos.filter(function(p){ return p.a === s.k; }).length;
+      return '<li data-secao="'+esc(s.k)+'" aria-current="'+(s.k===secaoAtiva)+'">' +
+        '<span class="nome">'+esc(s.n)+'</span><span class="n">'+n+'</span><span class="ferramentas">' +
+          mini("subir", i === 0, "M12 19V5M5 12l7-7 7 7") +
+          mini("descer", i === admCat.secoes.length-1, "M12 5v14M5 12l7 7 7-7") +
+          mini("renomear", false, "M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3z") +
+          mini("apagar", false, "M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13") +
+        '</span></li>';
+    }).join("");
+
+    var s = admCat.secoes.filter(function(x){ return x.k === secaoAtiva; })[0];
+    $("#admTituloSecao").textContent = s ? s.n : "Protocolos";
+
+    var itens = admCat.protocolos.filter(function(p){ return p.a === secaoAtiva; });
+    if(admFiltro){
+      itens = itens.filter(function(p){
+        return [p.t,p.tech,p.g,p.r,(p.p||[]).join(" ")].join(" ").toLowerCase().indexOf(admFiltro) > -1;
+      });
+    }
+
+    if(!itens.length){
+      $("#admListaProtocolos").innerHTML = '<div class="adm-vazio"><b>' +
+        (admFiltro ? "Nenhum protocolo com esse filtro." : "Esta seção ainda está vazia.") + '</b>' +
+        (admFiltro ? "Limpe o filtro para ver todos." : "Use “Novo protocolo” ou mova um de outra seção.") + '</div>';
+      espelhar(); return;
+    }
+
+    $("#admListaProtocolos").innerHTML = itens.map(function(p){
+      var i = admCat.protocolos.indexOf(p);
+      var semArquivo = !p.fl || !p.fl.length;
+      return '<div class="adm-item"><div class="adm-item__corpo">' +
+        '<p class="adm-item__titulo">'+esc(p.t)+'</p>' +
+        '<p class="adm-item__tech">'+esc(p.tech)+'</p><div class="adm-meta">' +
+          '<span class="adm-tag">'+esc(p.g || "Sem tecnologia")+'</span>' +
+          '<span class="adm-tag">'+esc(nomeFam(p.f))+'</span>' +
+          (p.k ? '<span class="adm-tag">'+esc(p.k)+'</span>' : '') +
+          '<span class="adm-tag'+(semArquivo ? ' adm-tag--aviso' : '')+'">' +
+            (semArquivo ? "sem arquivo" : (p.fl.length + (p.fl.length === 1 ? " arquivo" : " arquivos"))) + '</span>' +
+          '<span class="adm-tag">'+((p.s||[]).length)+' passos</span>' +
+        '</div></div><div class="adm-item__acoes">' +
+          '<select data-mover="'+i+'" aria-label="Mover para outra seção">' +
+            admCat.secoes.map(function(x){
+              return '<option value="'+esc(x.k)+'"'+(x.k===p.a?' selected':'')+'>'+esc(x.n)+'</option>'; }).join("") +
+          '</select>' +
+          '<button class="btn btn--linha btn--sm" data-editar="'+i+'">Editar</button>' +
+          '<button class="adm-mini" data-apagar="'+i+'" aria-label="Apagar protocolo">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>' +
+          '</button></div></div>';
+    }).join("");
+
+    espelhar();
+  }
+
+  function mini(acao, desativado, d){
+    return '<button class="adm-mini" data-sec-acao="'+acao+'"'+(desativado?' disabled style="opacity:.3"':'')+
+      ' aria-label="'+acao+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg></button>';
+  }
+
+  $("#admFiltro").addEventListener("input", function(e){
+    admFiltro = e.target.value.toLowerCase().trim(); admDesenhar();
+  });
+
+  /* ---------- seções ---------- */
+  $("#admListaSecoes").addEventListener("click", function(e){
+    var li = e.target.closest("[data-secao]"); if(!li) return;
+    var k = li.dataset.secao;
+    var i = admCat.secoes.findIndex(function(s){ return s.k === k; });
+    var b = e.target.closest("[data-sec-acao]");
+
+    if(!b){ secaoAtiva = k; admFiltro = ""; $("#admFiltro").value = ""; admDesenhar(); return; }
+
+    var acao = b.dataset.secAcao;
+    if(acao === "subir" && i > 0){
+      admCat.secoes.splice(i-1, 0, admCat.secoes.splice(i,1)[0]); marcarSujo();
+    } else if(acao === "descer" && i < admCat.secoes.length-1){
+      admCat.secoes.splice(i+1, 0, admCat.secoes.splice(i,1)[0]); marcarSujo();
+    } else if(acao === "renomear"){
+      var novo = prompt("Novo nome da seção:", admCat.secoes[i].n);
+      if(novo && novo.trim()){ admCat.secoes[i].n = novo.trim(); marcarSujo(); }
+    } else if(acao === "apagar"){
+      var usados = admCat.protocolos.filter(function(p){ return p.a === k; }).length;
+      if(usados){ recado("Mova os " + usados + " protocolos desta seção antes de apagá-la."); return; }
+      if(admCat.secoes.length === 1){ recado("É preciso manter ao menos uma seção."); return; }
+      if(!confirm('Apagar a seção "' + admCat.secoes[i].n + '"?')) return;
+      admCat.secoes.splice(i,1);
+      if(secaoAtiva === k) secaoAtiva = admCat.secoes[0].k;
+      marcarSujo();
+    }
+    admDesenhar();
+  });
+
+  $("#admNovaSecao").addEventListener("click", function(){
+    var nome = prompt("Nome da nova seção (ex.: Podologia, Reabilitação, Odontologia):");
+    if(!nome || !nome.trim()) return;
+    var s = { k: chaveLivre(nome), n: nome.trim() };
+    admCat.secoes.push(s); secaoAtiva = s.k;
+    marcarSujo(); admDesenhar();
+    recado('Seção "' + s.n + '" criada. Publique para valer no site.');
+  });
+
+  /* ---------- protocolos ---------- */
+  $("#admListaProtocolos").addEventListener("change", function(e){
+    var sel = e.target.closest("[data-mover]"); if(!sel) return;
+    admCat.protocolos[+sel.dataset.mover].a = sel.value;
+    marcarSujo(); admDesenhar(); recado("Protocolo movido.");
+  });
+  $("#admListaProtocolos").addEventListener("click", function(e){
+    var ed = e.target.closest("[data-editar]");
+    if(ed){ editor(+ed.dataset.editar); return; }
+    var ap = e.target.closest("[data-apagar]");
+    if(ap){
+      var i = +ap.dataset.apagar;
+      if(!confirm('Apagar o protocolo "' + admCat.protocolos[i].t + '"? Isso não apaga o arquivo no Drive.')) return;
+      admCat.protocolos.splice(i,1);
+      marcarSujo(); admDesenhar(); recado("Protocolo removido.");
+    }
+  });
+  $("#admNovoProtocolo").addEventListener("click", function(){ editor(-1); });
+
+  function editor(i){
+    var novo = i < 0;
+    var p = novo
+      ? { a:secaoAtiva, f:"mec", g:"", t:"", tech:"", r:"", p:[], s:[], k:"", fl:[] }
+      : JSON.parse(JSON.stringify(admCat.protocolos[i]));
+    var grupos = admCat.protocolos.map(function(x){ return x.g; })
+      .filter(function(v,n,a){ return v && a.indexOf(v) === n; }).sort();
+
+    $("#admModal").innerHTML =
+      '<div class="adm-modal__cab"><div><span class="eyebrow">' + (novo ? "Novo protocolo" : "Editando") + '</span>' +
+        '<h3 id="admTituloModal">' + (novo ? "Adicionar protocolo" : esc(p.t)) + '</h3></div>' +
+        '<button class="adm-mini" id="admX" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" ' +
+        'stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>' +
+      '<div class="campo" id="ac-t"><label for="af-t">Título — o que trata <span class="req">*</span></label>' +
+        '<input id="af-t" value="'+esc(p.t)+'" placeholder="Ex.: Flacidez facial"><span class="msg">Informe o título.</span></div>' +
+      '<div class="campo" id="ac-tech"><label for="af-tech">Equipamento e tecnologia <span class="req">*</span></label>' +
+        '<input id="af-tech" value="'+esc(p.tech)+'" placeholder="Ex.: Hooke — radiofrequência com aplicador Cooling">' +
+        '<span class="msg">Informe o equipamento.</span></div>' +
+      '<div class="adm-dupla"><div class="campo"><label for="af-a">Seção</label><select id="af-a">' +
+          admCat.secoes.map(function(s){
+            return '<option value="'+esc(s.k)+'"'+(s.k===p.a?' selected':'')+'>'+esc(s.n)+'</option>'; }).join("") +
+        '</select></div>' +
+        '<div class="campo"><label for="af-f">Família de tecnologia</label><select id="af-f">' +
+          Object.keys(FAM).map(function(k){
+            return '<option value="'+k+'"'+(k===p.f?' selected':'')+'>'+nomeFam(k)+'</option>'; }).join("") +
+        '</select></div></div>' +
+      '<div class="adm-dupla"><div class="campo" id="ac-g"><label for="af-g">Grupo na página <span class="req">*</span></label>' +
+          '<input id="af-g" list="admGrupos" value="'+esc(p.g)+'" placeholder="Ex.: Radiofrequência">' +
+          '<datalist id="admGrupos">'+grupos.map(function(t){ return '<option value="'+esc(t)+'">'; }).join("")+'</datalist>' +
+          '<span class="msg">Informe o grupo.</span></div>' +
+        '<div class="campo"><label for="af-k">Selo (opcional)</label>' +
+          '<input id="af-k" value="'+esc(p.k||"")+'" placeholder="Isca, Campanha, Referência, Vídeo"></div></div>' +
+      '<div class="campo"><label for="af-r">Resumo — uma frase</label>' +
+        '<input id="af-r" value="'+esc(p.r)+'" placeholder="O que esse protocolo resolve, em uma linha"></div>' +
+      '<div class="campo"><label for="af-p">Parâmetros — um por linha</label>' +
+        '<textarea id="af-p" placeholder="40–42 °C&#10;7 min / hemiface">'+esc((p.p||[]).join("\n"))+'</textarea>' +
+        '<p class="mini" style="margin-top:6px">Viram etiquetas no card. Deixe os mais decisivos primeiro.</p></div>' +
+      '<div class="campo"><label for="af-s">Passo a passo — um por linha</label>' +
+        '<textarea id="af-s" style="min-height:150px" placeholder="Higienizar a pele e aplicar o gel.">'+esc((p.s||[]).join("\n"))+'</textarea></div>' +
+      '<div class="campo" id="ac-fl"><label for="af-fl">Arquivos no Drive — um link ou ID por linha <span class="req">*</span></label>' +
+        '<textarea id="af-fl" placeholder="https://drive.google.com/file/d/1AbC.../view">'+
+          esc((p.fl||[]).map(function(f){ return f.id + (f.t ? " | " + f.t : ""); }).join("\n"))+'</textarea>' +
+        '<p class="mini" style="margin-top:6px">Cole o link do arquivo no Drive. Para nomear, use <b>ID | nome do arquivo</b>. ' +
+        'O arquivo precisa estar numa pasta compartilhada como “qualquer pessoa com o link”.</p>' +
+        '<span class="msg">Informe ao menos um arquivo do Drive.</span></div>' +
+      '<div class="adm-modal__pe">' +
+        '<button class="btn btn--laranja btn--caixa" id="admSalvar">'+(novo ? "Adicionar" : "Salvar")+'</button>' +
+        '<button class="btn btn--linha" id="admCancelar">Cancelar</button></div>';
+
+    $("#admFundo").classList.add("ver");
+    setTimeout(function(){ $("#af-t").focus(); }, 60);
+
+    $("#admModal").addEventListener("input", function(e){
+      var c = e.target.closest(".campo"); if(c) c.classList.remove("erro");
+    });
+    $("#admX").addEventListener("click", fecharEditor);
+    $("#admCancelar").addEventListener("click", fecharEditor);
+    $("#admSalvar").addEventListener("click", function(){
+      ["ac-t","ac-tech","ac-g","ac-fl"].forEach(function(c){ $("#"+c).classList.remove("erro"); });
+      var linhas = function(id){
+        return $("#"+id).value.split("\n").map(function(x){ return x.trim(); }).filter(Boolean);
+      };
+      var arquivos = linhas("af-fl").map(function(l){
+        var partes = l.split("|");
+        var id = idDoDrive(partes[0]);
+        var nome = (partes[1] || "").trim();
+        return id ? { id:id, t:nome || ("arquivo-" + id.slice(0,6)) } : null;
+      }).filter(Boolean);
+
+      var falhou = false;
+      if(!$("#af-t").value.trim()){    $("#ac-t").classList.add("erro");    falhou = true; }
+      if(!$("#af-tech").value.trim()){ $("#ac-tech").classList.add("erro"); falhou = true; }
+      if(!$("#af-g").value.trim()){    $("#ac-g").classList.add("erro");    falhou = true; }
+      if(!arquivos.length){            $("#ac-fl").classList.add("erro");   falhou = true; }
+      if(falhou){ $("#admModal").querySelector(".campo.erro").scrollIntoView({behavior:"smooth",block:"center"}); return; }
+
+      var novoP = {
+        a: $("#af-a").value, f: $("#af-f").value, g: $("#af-g").value.trim(),
+        t: $("#af-t").value.trim(), tech: $("#af-tech").value.trim(), r: $("#af-r").value.trim(),
+        p: linhas("af-p"), s: linhas("af-s"), fl: arquivos
+      };
+      var selo = $("#af-k").value.trim();
+      if(selo) novoP.k = selo;
+
+      if(novo){ admCat.protocolos.push(novoP); secaoAtiva = novoP.a; }
+      else     { admCat.protocolos[i] = novoP; }
+
+      marcarSujo(); fecharEditor(); admDesenhar();
+      recado(novo ? "Protocolo adicionado. Publique para aparecer no site." : "Alterações salvas. Publique para valer no site.");
+    });
+  }
+  function fecharEditor(){ $("#admFundo").classList.remove("ver"); }
+  $("#admFundo").addEventListener("click", function(e){ if(e.target === $("#admFundo")) fecharEditor(); });
+  document.addEventListener("keydown", function(e){
+    if(e.key !== "Escape") return;
+    if($("#admFundo").classList.contains("ver")) fecharEditor();
+    else if($("#admPorta").classList.contains("ver")) $("#admVoltar").click();
+  });
+
+  /* sessão já aberta nesta aba: reentra sozinho */
+  try {
+    var guardado = sessionStorage.getItem("dm_token");
+    if(guardado) entrar(guardado, true);
+  } catch(e){}
+})();
+
+aplicarLinks();
+montar();
+desenhar();
+observar();
+carregar();
+</script>
+
+</body></html>
